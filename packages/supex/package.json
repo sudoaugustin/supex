@@ -1,0 +1,32 @@
+{
+  "name": "supex",
+  "version": "0.0.1",
+  "description": "A cross-browser extension tool",
+  "author": "sudoaugustin",
+  "license": "MIT",
+  "bin": {
+    "supex": "./dist/bin.js"
+  },
+  "files": [
+    "dist",
+    "defaults"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "watch": "node ./scripts/build.mjs -W"
+  },
+  "dependencies": {
+    "arg": "^5.0.2",
+    "chalk": "4.1.2",
+    "chokidar": "^3.5.3",
+    "esbuild": "^0.19.5",
+    "fs-jetpack": "^5.1.0",
+    "nanoid": "3.3.2",
+    "sharp": "^0.32.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.6",
+    "@types/sharp": "^0.30.5",
+    "has-flag": "^5.0.1"
+  }
+}
