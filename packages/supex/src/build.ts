@@ -9,17 +9,13 @@ type Args = { browser: Browser; isBuild: boolean };
 
 export default async function build({ browser, isBuild }: Args) {
   const start = new Date().getMilliseconds();
+  const config = jetpack.read(paths.config, 'json');
   const manifest = browser === 'firefox' ? 2 : 3;
-  const $keys = keys({ browser, manifest, isBuild });
-  const $package = jetpack.read(paths.config, 'json');
   const getValue = (v: any) => !!v && (v[browser] || v.default || v);
 
-  // Build manifest.json
   Promise.all(
-    $keys.map(async ({ name, require, process, validate }) => {
-      const value = process ? await process($package[name]) : getValue($package[name]);
-      const message = require && !value ? `'${name}' is missing in package.json` : validate?.(value);
-      if (message) throw message;
+    keys({ browser, manifest, isBuild }).map(async ({ name, process }) => {
+      const value = process ? await process(config[name], config) : getValue(config[name]);
       return [name, value];
     }),
   )

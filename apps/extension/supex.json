@@ -1,24 +1,16 @@
 {
+  "$schema": "/Users/augustin/Projects/supex/packages/schemas/config/0.0.1.json",
   "name": "Chromie",
   "author": "Augustin Joseph",
-  "version": "0.0.1",
+  "version": "0.0.0.0",
   "description": "Sharing is caring",
   "commands": {
-    "toggle-theme": {
-      "key": "Ctrl+A",
-      "description": "Sharing is caring"
-    },
-    "toggle-theme1": {
-      "key": "Ctrl+B",
-      "description": "Sharing is caring"
-    },
-    "toggle-theme2": {
-      "key": "Ctrl+C",
-      "description": "Sharing is caring"
-    },
-    "toggle-theme3": {
-      "key": "Ctrl+D",
-      "description": "Sharing is caring"
-    }
+    "hellwoorld": { "key": "Ctrl+R", "description": "hellwoorld" }
+  },
+  "hosts": ["*://developer.mozilla.org/*"],
+  "incognito": "spanning",
+  "permissions": {
+    "required": ["declarativeNetRequest", "debugger"],
+    "optional": ["alarms", "browserSettings", "contextualIdentities"]
   }
 }

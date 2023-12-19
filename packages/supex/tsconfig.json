@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ES2016",
+    "target": "ES2019",
     "module": "CommonJS",
     "baseUrl": ".",
-    "typeRoots": ["./types"],
+    "typeRoots": ["./types/*.ts",],
     "declaration": true,
     "skipLibCheck": true,
     "alwaysStrict": false,

@@ -1,0 +1,18 @@
+{
+  "$schema": "/Users/augustin/Projects/supex/packages/schemas/request-rules/0.0.1.json",
+  "rules": [
+    {
+      "action": {
+        "type": "redirect",
+        "redirect": {
+          "url": "https://www.facebook.com/"
+        }
+      },
+      "condition": {
+        "urlFilter": "https://www.neuroglee.com/",
+        "resourceTypes": ["main_frame"]
+      },
+      "priority": 10
+    }
+  ]
+}

@@ -1,7 +1,6 @@
+import path from 'path';
 import type { Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
-import { nanoid } from 'nanoid';
-import path from 'path';
 import { getConfig } from './utils';
 
 type Config = { plugins: { [k: string]: {} } | (string | [string, {}])[]; syntax: unknown };
@@ -14,7 +13,7 @@ export default function postcss(): Plugin {
       const { outdir = '' } = build.initialOptions;
       build.onLoad({ filter: /\.css$/ }, async (args) => {
         const input = args.path;
-        const output = path.join(outdir, 'styles', `${path.basename(args.path, '.css')}.${nanoid()}.css`);
+        const output = path.join(outdir, 'styles', path.basename(args.path));
         const { plugins, ...options } = getConfig<Config>('postcss');
         const resolvedPlugins = (Array.isArray(plugins) ? plugins : Object.entries(plugins)).map((plugin) => {
           if (typeof plugin === 'string') return require(plugin);

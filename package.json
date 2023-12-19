@@ -6,14 +6,17 @@
     "watch": "turbo run watch"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.3.3",
-    "@turbo/gen": "^1.9.7",
+    "@biomejs/biome": "^1.4.1",
+    "@turbo/gen": "^1.11.2",
     "turbo": "latest"
   },
-  "packageManager": "yarn@1.22.19",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "version": "0.0.0",
   "dependencies": {
     "@total-typescript/ts-reset": "^0.5.1"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }

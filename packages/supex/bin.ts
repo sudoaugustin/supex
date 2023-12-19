@@ -1,8 +1,8 @@
 import arg from 'arg';
-import build from 'src/build';
-import paths from 'src/paths';
 import chokidar from 'chokidar';
 import jetpack from 'fs-jetpack';
+import build from 'src/build';
+import paths from 'src/paths';
 
 type Command = 'build' | 'version';
 

@@ -7,15 +7,14 @@
   "bin": {
     "supex": "./dist/bin.js"
   },
-  "files": [
-    "dist",
-    "defaults"
-  ],
+  "files": ["dist", "defaults", "schemas"],
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "watch": "node ./scripts/build.mjs -W"
   },
   "dependencies": {
+    "@babel/parser": "^7.23.4",
+    "@babel/traverse": "^7.23.4",
     "arg": "^5.0.2",
     "chalk": "4.1.2",
     "chokidar": "^3.5.3",
@@ -25,6 +24,7 @@
     "sharp": "^0.32.4"
   },
   "devDependencies": {
+    "@types/babel__traverse": "^7.20.4",
     "@types/node": "^18.0.6",
     "@types/sharp": "^0.30.5",
     "has-flag": "^5.0.1"

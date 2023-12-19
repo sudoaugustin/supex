@@ -1,6 +1,6 @@
 import path from 'path';
 import jetpack from 'fs-jetpack';
-import { Script } from 'types';
+import { Meta, Page } from 'types';
 import paths from '../paths';
 
 export const getConfig = <TConfig>(key: string) => {
@@ -17,6 +17,27 @@ export const getConfig = <TConfig>(key: string) => {
   return config as TConfig;
 };
 
+export const generateMeta = (meta: Meta) => {
+  return Object.entries(meta).reduce((string, [name, value]) => {
+    let $string = string;
+    if (value) {
+      if (name === 'title') $string += `<title>${value}</title>`;
+      else if (name === 'icon') $string += `<link rel="icon" type="image/x-icon" href='./assets/${path.basename(value)}'>`;
+      else $string += `<meta name="${name}" content="${value}">`;
+    }
+    return $string;
+  }, '');
+};
+
+export const getFilesList = (folder: string, extensions: string | string[]) => {
+  return jetpack
+    .find(path.join(paths.app, folder), {
+      matching: typeof extensions === 'string' ? `*.${extensions}` : `*.{${extensions.toString()}}`,
+      recursive: false,
+    })
+    .map(($path) => path.join(paths.root, $path));
+};
+
 export const getExistFile = (path: string, type: 'image' | 'script') => {
   const formats = {
     image: ['svg', 'png', 'jpg'],
@@ -25,19 +46,13 @@ export const getExistFile = (path: string, type: 'image' | 'script') => {
   return formats[type].map((format) => `${path}.${format}`).find(jetpack.exists);
 };
 
-export const getScriptFile = (type: Script) => {
-  return getExistFile(path.join(paths.root, 'app', type), 'script');
+export const getScriptFile = (type: Page) => {
+  const scoutIndex = type === 'devtools';
+  return getExistFile(path.join(...[paths.root, 'app', type, scoutIndex && 'index'].filter(Boolean)), 'script');
 };
 
 export const replaceString = (str: string, keywords: {}) => {
   return Object.entries(keywords).reduce((acc, [key, value]) => {
     return acc.replace(new RegExp(key, 'g'), `${value}`);
   }, str);
-};
-
-export const generateTypes = (name: string, options: string[]) => {
-  jetpack.write(
-    path.join(__dirname, '../', 'types', 'runtime', `${name}.ts`),
-    `export type ${name.toUpperCase()} = ${options.map((option) => `'${option}'`).join(' | ')}`,
-  );
 };

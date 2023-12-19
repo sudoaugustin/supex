@@ -15,6 +15,7 @@ const paths = {
     /(^|[\/\\])\../, // dotfiles
     path.join(root, 'node_modules'),
   ],
+  schemas: path.join(__dirname, '../', 'schemas'),
   defaults: path.join(__dirname, '../', 'defaults'),
 };
 
