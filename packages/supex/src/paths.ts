@@ -7,7 +7,6 @@ const output = path.join(root, '.supex');
 const paths = {
   root,
   app: path.join(root, 'app'),
-  // assets: path.join(root, 'assets'),
   config: path.join(root, 'supex.json'),
   output,
   ignores: [

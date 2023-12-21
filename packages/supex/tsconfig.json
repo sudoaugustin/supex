@@ -4,7 +4,7 @@
     "target": "ES2019",
     "module": "CommonJS",
     "baseUrl": ".",
-    "typeRoots": ["./types/*.ts",],
+    "typeRoots": ["./types/*.ts"],
     "declaration": true,
     "skipLibCheck": true,
     "alwaysStrict": false,

@@ -1,4 +1,5 @@
 import '@total-typescript/ts-reset';
+import { browsers } from 'src/consts/index';
 
 type Icon = 'icon' | 'action-icon';
 
@@ -8,7 +9,7 @@ type Page = 'home' | 'worker' | 'content' | 'action' | 'history' | 'bookmarks' |
 
 type Device = { mac?: string; linux?: string; default: string; window?: string; chromeos?: string };
 
-type Browser = 'chrome' | 'safari' | 'firefox' | 'edge';
+type Browser = (typeof browsers)[number];
 
 type Pattern = {
   runAt?: 'document_end' | 'document_start' | 'document_idle';

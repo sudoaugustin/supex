@@ -4,10 +4,12 @@
   "description": "A cross-browser extension tool",
   "author": "sudoaugustin",
   "license": "MIT",
-  "bin": {
-    "supex": "./dist/bin.js"
-  },
-  "files": ["dist", "defaults", "schemas"],
+  "bin": "./dist/bin.js",
+  "files": [
+    "dist",
+    "defaults",
+    "schemas"
+  ],
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "watch": "node ./scripts/build.mjs -W"
@@ -15,15 +17,18 @@
   "dependencies": {
     "@babel/parser": "^7.23.4",
     "@babel/traverse": "^7.23.4",
+    "archiver": "^6.0.1",
     "arg": "^5.0.2",
     "chalk": "4.1.2",
     "chokidar": "^3.5.3",
     "esbuild": "^0.19.5",
     "fs-jetpack": "^5.1.0",
     "nanoid": "3.3.2",
-    "sharp": "^0.32.4"
+    "sharp": "^0.32.4",
+    "web-ext": "^7.9.0"
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.2",
     "@types/babel__traverse": "^7.20.4",
     "@types/node": "^18.0.6",
     "@types/sharp": "^0.30.5",
