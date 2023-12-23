@@ -4,10 +4,11 @@ import arg from 'arg';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 import jetpack from 'fs-jetpack';
-import build, { Change } from 'src/build';
+import buildManifest from 'src/build.manifest';
+import buildPages from 'src/build.pages';
 import { browsers } from 'src/consts';
-import paths from 'src/paths';
-import zip from 'src/zip';
+import paths from 'src/consts/paths';
+import zip from 'src/utils/zip';
 import { Browser } from 'types';
 
 type Command = 'build';
@@ -20,33 +21,39 @@ const { version } = require('./package.json');
 
 console.log(chalk.blue(chalk.bold(`Supex ${version}`)));
 
-function buildForBrowsers(change?: Change) {
-  return Promise.all($browsers.map(async (browser) => build({ browser, isBuild, change })));
-}
+$browsers.forEach(async browser => {
+  const outdir = path.join(paths.root, '.supex', browser);
+  const appFiles = jetpack.find(paths.app);
 
-isBuild && jetpack.remove(paths.output); // Clean the output dir to avoid `file already exits` error
+  const options = { outdir, appFiles, browser, isBuild };
 
-// First buld for both build and watch
-buildForBrowsers().then(() => {
-  $browsers.forEach((browser) => {
-    if (isBuild) {
-      zip(browser);
-    } else {
-      import('web-ext').then(({ cmd }: any) => {
-        cmd.run(
-          {
-            target: browser === 'chrome' ? 'chromium' : 'firefox-desktop',
-            noInput: true,
-            sourceDir: path.join(paths.output, browser),
-          },
-          { shouldExitProgram: false },
-        );
-      });
-    }
-  });
+  await buildPages(options);
+  await buildManifest(options);
 });
 
-!isBuild &&
-  chokidar.watch(paths.root, { ignored: paths.ignores, ignoreInitial: true }).on('all', (event, path) => {
-    buildForBrowsers({ event, path });
-  });
+// isBuild && jetpack.remove(paths.output); // Clean the output dir to avoid `file already exits` error
+
+// First buld for both build and watch
+// buildForBrowsers().then(() => {
+//   $browsers.forEach((browser) => {
+//     if (isBuild) {
+//       zip(browser);
+//     } else {
+//       import('web-ext').then(({ cmd }: any) => {
+//         cmd.run(
+//           {
+//             target: browser === 'chrome' ? 'chromium' : 'firefox-desktop',
+//             noInput: true,
+//             sourceDir: path.join(paths.output, browser),
+//           },
+//           { shouldExitProgram: false },
+//         );
+//       });
+//     }
+//   });
+// });
+
+// !isBuild &&
+//   chokidar.watch(paths.root, { ignored: paths.ignores, ignoreInitial: true }).on('all', (event, path) => {
+//     buildForBrowsers({ event, path });
+//   });

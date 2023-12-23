@@ -57,7 +57,7 @@
         "mac": { "type": "string" },
         "linux": { "type": "string" },
         "default": { "type": "string" },
-        "window": { "type": "string" },
+        "windows": { "type": "string" },
         "chromeos": { "type": "string" }
       },
       "required": ["default"]

@@ -22,7 +22,8 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single"
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded"
     }
   },
   "organizeImports": { "enabled": true }

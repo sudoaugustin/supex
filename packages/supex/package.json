@@ -5,11 +5,7 @@
   "author": "sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "files": [
-    "dist",
-    "defaults",
-    "schemas"
-  ],
+  "files": ["dist", "types/runtime"],
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "watch": "node ./scripts/build.mjs -W"
