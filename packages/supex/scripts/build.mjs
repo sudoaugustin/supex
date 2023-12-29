@@ -1,8 +1,9 @@
+import arg from 'arg';
 import esbuild from 'esbuild';
 import jetpack from 'fs-jetpack';
-import hasFlag from 'has-flag';
 
-const watch = hasFlag('-W');
+const args = arg({ '--watch': Boolean });
+const watch = !!args['--watch'];
 const { dependencies } = jetpack.read('./package.json', 'json');
 
 const options = {

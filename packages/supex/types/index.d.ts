@@ -5,4 +5,4 @@ type Page = 'home' | 'worker' | 'content' | 'action' | 'history' | 'bookmarks' |
 
 type Browser = (typeof browsers)[number];
 
-type BuildOptions = { outdir: string; browser: Browser; isBuild: boolean; appFiles: string[] };
+type ESPluginOptions = { port: number; outdir: string; browser: Browser; isBuild: boolean };

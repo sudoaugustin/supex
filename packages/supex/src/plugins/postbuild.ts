@@ -1,67 +1,64 @@
 import path from 'path';
-import type { Plugin } from 'esbuild';
+import archiver from 'archiver';
+import chokidar from 'chokidar';
+import debounce from 'debounce';
+import { Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
-import type { Browser } from 'types';
-import paths from '../consts/paths';
-import { generateMeta, getExports, log, replaceString } from '../utils';
+import { paths } from 'src/consts';
+import { ESPluginOptions } from 'types';
 
-type Options = { appFiles: string[]; browser: Browser };
+type ReloadOptions = {
+  sourceDir: string;
+  extensionRunner: { registerCleanup: Function; reloadExtensionBySourceDir: Function };
+};
 
-const defaultHTML = `
-  <!DOCTYPE html>
-  <html lang="en">
+function reloadStrategy({ extensionRunner, sourceDir }: ReloadOptions) {
+  const watcher = chokidar.watch([paths.config, path.join(paths.app, 'request-rules'), path.join(sourceDir, 'contents')], {
+    ignoreInitial: true,
+  });
+  const debounceTime = 50;
+  const handleChange = debounce(() => extensionRunner.reloadExtensionBySourceDir(sourceDir), debounceTime, { immediate: false });
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
+  watcher.on('all', () => handleChange());
 
-  <body></body>
+  extensionRunner.registerCleanup(() => {
+    watcher.close();
+  });
+}
 
-  </html>`;
-
-let t1: [number, number];
-
-export default function html({ browser, appFiles }: Options): Plugin {
+export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): Plugin {
   return {
-    name: 'postbuild',
-    setup(build) {
-      build.onStart(() => {
-        t1 = process.hrtime();
-      });
+    name: 'web-ext',
+    setup: build => {
+      let count = 0;
+      build.onEnd(async error => {
+        if (error.errors.length === 0) {
+          if (isBuild) {
+            const archive = archiver('zip');
+            const outputStream = jetpack.createWriteStream(path.join(paths.root, `${browser}.zip`));
+            return new Promise((resolve, reject) => {
+              archive.on('error', err => {
+                throw err.message;
+              });
+              archive.on('finish', resolve);
+              archive.pipe(outputStream);
+              archive.directory(outdir, false);
+              archive.finalize();
+            });
+          }
 
-      build.onEnd(() => {
-        (build.initialOptions.entryPoints as string[])
-          .filter(file => !file.includes('app/contents/') && !file.includes('app/worker'))
-          .forEach(async file => {
-            const fileWithoutExt = file.split('.')[0];
-            const name = path.basename(fileWithoutExt);
-            const html = jetpack.read(`${fileWithoutExt}.html`) || defaultHTML;
-            const output = fileWithoutExt.replace(paths.app, build.initialOptions.outdir as string);
-            const isCSSExist = jetpack.exists(`${output}.css`);
-            const isOverride = ['/app/home', '/app/bookmakrs', '/app/history'].some(pattern => file.includes(pattern));
-            const { meta = {} } = isOverride ? await getExports(file) : {};
-
-            if (isOverride) {
-              const icon = appFiles.find(file => file.includes(`${fileWithoutExt}-icon`));
-              if (icon) {
-                meta.icon = icon;
-                jetpack.copy(icon, path.join(build.initialOptions.outdir as string, 'icons', path.basename(icon)), { overwrite: true });
-              }
-            }
-
-            jetpack.write(
-              `${output}.html`,
-              replaceString(html, {
-                // Warning: Only use relative path from html for safty.
-                '</head>': `${isCSSExist ? `<link href="./${name}.css" rel="stylesheet" />` : ''} ${generateMeta(meta)} </head>`,
-                '</body>': `<script src="./${name}.js"></script> </body>`,
-              }),
+          if (count === 0) {
+            count++;
+            const { cmd } = await import('web-ext');
+            //@ts-ignore
+            const { consoleStream } = await import('web-ext/util/logger');
+            consoleStream.write = () => {};
+            cmd.run(
+              { target: browser === 'chrome' ? 'chromium' : 'firefox-desktop', noInput: true, sourceDir: outdir },
+              { reloadStrategy },
             );
-          });
-
-        log.success(t1, 'Compiled pages in $ms', browser);
+          }
+        }
       });
     },
   };

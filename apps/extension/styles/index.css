@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body{
-    @apply w-[50rem] h-[50rem] bg-red-500
+    @apply bg-slate-800
 }

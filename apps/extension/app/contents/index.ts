@@ -1,9 +1,8 @@
-import 'styles/index.css';
+// import 'styles/index.css';
 
 export const pattern = {
-  globs: [],
-  matches: ['https://*.neuroglee.com/*'],
+  matches: ['https://*.ng.co/*'],
   matchFallback: true,
 };
 
-document.body.style.background = 'red';
+document.body.style.background = 'blue';

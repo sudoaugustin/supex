@@ -1,9 +1,9 @@
 {
   "$schema": "/Users/augustin/Projects/supex/packages/schemas/config/0.0.1.json",
-  "name": "Chromie",
+  "name": "Chr",
   "author": "Augustin Joseph",
   "version": "0.0.0.2",
-  "description": "Sharing is caring",
+  "description": "Sharing not caring",
   "commands": {
     "hellwoorld": { "key": "Ctrl+R", "description": "hellwoorld" }
   },

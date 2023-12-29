@@ -1,5 +1,6 @@
 {
   "name": "supex-project",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -14,7 +15,6 @@
     "apps/*",
     "packages/*"
   ],
-  "version": "0.0.0",
   "dependencies": {
     "@total-typescript/ts-reset": "^0.5.1"
   },

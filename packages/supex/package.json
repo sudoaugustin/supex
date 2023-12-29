@@ -5,10 +5,13 @@
   "author": "sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "files": ["dist", "types/runtime"],
+  "files": [
+    "dist",
+    "types/runtime"
+  ],
   "scripts": {
     "build": "node ./scripts/build.mjs",
-    "watch": "node ./scripts/build.mjs -W"
+    "watch": "node ./scripts/build.mjs --watch"
   },
   "dependencies": {
     "@babel/parser": "^7.23.4",
@@ -17,10 +20,11 @@
     "arg": "^5.0.2",
     "chalk": "4.1.2",
     "chokidar": "^3.5.3",
+    "debounce": "^2.0.0",
     "esbuild": "^0.19.5",
     "fs-jetpack": "^5.1.0",
-    "nanoid": "3.3.2",
     "sharp": "^0.32.4",
+    "treeify": "^1.1.0",
     "web-ext": "^7.9.0"
   },
   "devDependencies": {
@@ -28,6 +32,6 @@
     "@types/babel__traverse": "^7.20.4",
     "@types/node": "^18.0.6",
     "@types/sharp": "^0.30.5",
-    "has-flag": "^5.0.1"
+    "@types/treeify": "^1.0.3"
   }
 }

@@ -1,19 +1,21 @@
 import path from 'path';
-import archiver from 'archiver';
 import arg from 'arg';
 import chalk from 'chalk';
-import chokidar from 'chokidar';
+import esbuild from 'esbuild';
 import jetpack from 'fs-jetpack';
-import buildManifest from 'src/build.manifest';
-import buildPages from 'src/build.pages';
-import { browsers } from 'src/consts';
-import paths from 'src/consts/paths';
-import zip from 'src/utils/zip';
+import { browsers, extensions, paths } from 'src/consts';
+import logger from 'src/plugins/logger';
+import manifest from 'src/plugins/manifest';
+import postbuild from 'src/plugins/postbuild';
+import postcss from 'src/plugins/postcss';
+import posthtml from 'src/plugins/posthtml';
+import checkFiles from 'src/utils/checkFiles';
 import { Browser } from 'types';
 
 type Command = 'build';
 
 const args = arg({ '--help': Boolean, '--browser': String });
+const port = 2000;
 const command = args._[0] as Command;
 const isBuild = command === 'build';
 const $browsers = (args['--browser']?.split(',') || browsers) as Browser[];
@@ -21,39 +23,32 @@ const { version } = require('./package.json');
 
 console.log(chalk.blue(chalk.bold(`Supex ${version}`)));
 
-$browsers.forEach(async browser => {
+checkFiles();
+
+$browsers.forEach(async (browser, index) => {
   const outdir = path.join(paths.root, '.supex', browser);
-  const appFiles = jetpack.find(paths.app);
+  const options = { port, browser, isBuild, outdir };
 
-  const options = { outdir, appFiles, browser, isBuild };
+  const context = await esbuild.context({
+    outdir,
+    bundle: true,
+    minify: isBuild,
+    plugins: [postcss(), posthtml(options), manifest(options), postbuild(options), logger(options)],
+    logLevel: 'silent',
+    sourcemap: isBuild ? false : 'inline',
+    entryPoints: extensions.script.map(ext => `${paths.app}/**/*.${ext}`), // TODO: Check the project folder to compile only ts,tsx or js,jsx
+  });
 
-  await buildPages(options);
-  await buildManifest(options);
+  if (isBuild) {
+    jetpack.remove(outdir);
+    context
+      .rebuild()
+      .catch(() => {
+        //Don't do anything. Logger plugin covered it.
+      })
+      .finally(() => context.dispose());
+  } else {
+    await context.watch();
+    index === 0 && context.serve({ port, servedir: outdir });
+  }
 });
-
-// isBuild && jetpack.remove(paths.output); // Clean the output dir to avoid `file already exits` error
-
-// First buld for both build and watch
-// buildForBrowsers().then(() => {
-//   $browsers.forEach((browser) => {
-//     if (isBuild) {
-//       zip(browser);
-//     } else {
-//       import('web-ext').then(({ cmd }: any) => {
-//         cmd.run(
-//           {
-//             target: browser === 'chrome' ? 'chromium' : 'firefox-desktop',
-//             noInput: true,
-//             sourceDir: path.join(paths.output, browser),
-//           },
-//           { shouldExitProgram: false },
-//         );
-//       });
-//     }
-//   });
-// });
-
-// !isBuild &&
-//   chokidar.watch(paths.root, { ignored: paths.ignores, ignoreInitial: true }).on('all', (event, path) => {
-//     buildForBrowsers({ event, path });
-//   });

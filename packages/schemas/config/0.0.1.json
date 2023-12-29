@@ -46,6 +46,9 @@
         "required": { "type": "array", "items": { "type": "string" } },
         "optional": { "type": "array", "items": { "type": "string" } }
       }
+    },
+    "content-security": {
+      "type": "object"
     }
   },
   "required": ["name", "version", "description"],

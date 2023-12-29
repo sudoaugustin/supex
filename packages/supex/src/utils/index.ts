@@ -2,10 +2,10 @@ import path from 'path';
 import * as babelParser from '@babel/parser';
 import * as babelTraverse from '@babel/traverse';
 import chalk from 'chalk';
-import esbuild from 'esbuild';
+import esbuild, { BuildResult } from 'esbuild';
 import jetpack from 'fs-jetpack';
+import { extensions, paths } from 'src/consts';
 import { Browser } from 'types';
-import paths from '../consts/paths';
 
 type Meta = { icon?: string; title?: string };
 
@@ -22,11 +22,20 @@ type Pattern = {
 };
 
 export const log = {
-  error: (msg: string, browser: Browser) => {},
+  error: (error: any, browser: Browser) => {
+    // esbuild error handling
+    if (error.errors) {
+      (error.errors as BuildResult['errors']).forEach(({ text, location }) => {
+        log.error(`${text}` + (location ? ` (${location.file}:${location.line}:${location.column})` : ''), browser);
+      });
+    } else {
+      console.log(`${chalk.gray(`[${browser}]`)} ${chalk.bold(chalk.red('✘'))} ${error}`);
+    }
+  },
   success: (t1: [number, number], msg: string, browser: Browser) => {
     const t2 = process.hrtime(t1);
     const ms = (t2[0] * 1000 + t2[1] / 1e6).toFixed();
-    console.log(`${chalk.gray(`[${browser}]`)} ${chalk.bold(chalk.green('✔'))} ${msg.replace('$ms', `${ms}ms`)}.`);
+    console.log(`${chalk.gray(`[${browser}]`)} ${chalk.bold(chalk.green('✔'))} ${msg.replace('$ms', `${ms}ms`)}`);
   },
 };
 
@@ -78,6 +87,10 @@ export const getExports = (input: string) => {
     });
     return $exports;
   });
+};
+
+export const isScriptFile = (file: string) => {
+  return extensions.script.includes(file.split('.')[1]);
 };
 
 export const generateMeta = (meta: Meta) => {

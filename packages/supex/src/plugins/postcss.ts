@@ -1,7 +1,7 @@
 import path from 'path';
 import type { Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
-import { getConfig } from '../utils';
+import { getConfig } from 'src/utils';
 
 type Config = { plugins: { [k: string]: {} } | (string | [string, {}])[]; syntax: unknown };
 
