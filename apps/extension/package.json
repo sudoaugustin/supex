@@ -2,8 +2,8 @@
   "name": "extension",
   "version": "0.0.1",
   "scripts": {
-    "watch": "supex",
-    "build": "supex build"
+    "watch": "supex --browser=firefox",
+    "build": "supex build --browser=firefox"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",

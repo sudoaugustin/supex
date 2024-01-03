@@ -1,3 +1,7 @@
+import { Browser } from 'types';
+
+type Permissions = string[] | undefined;
+
 const common = [
   'activeTab',
   'alarms',
@@ -32,7 +36,7 @@ const common = [
   'webRequestBlocking',
 ];
 
-export const permissions = {
+const permissions = {
   chrome: [
     ...common,
     'background',
@@ -100,7 +104,7 @@ export const permissions = {
   edge: [],
 };
 
-export const nonOptionalPermissions = {
+const nonOptionalPermissions = {
   chrome: [
     'debugger',
     'declarativeNetRequest',
@@ -128,4 +132,12 @@ export const nonOptionalPermissions = {
   ],
   safari: [],
   edge: [],
+};
+
+export const filterRequiredPermissions = ($permissions: Permissions, browser: Browser) => {
+  return ($permissions || []).filter(permission => permissions[browser].includes(permission as never));
+};
+
+export const filterOptionalPermissions = ($permissions: Permissions, browser: Browser) => {
+  filterRequiredPermissions($permissions, browser).filter(permission => !nonOptionalPermissions[browser].includes(permission as never));
 };

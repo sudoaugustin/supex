@@ -1,4 +1,10 @@
 {
+  "eslint.enable": false,
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": true,
+    "source.organizeImports": "never",
+    "source.organizeImports.biome": true
+  },
   "[json][jsonc][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   }

@@ -1,15 +1,21 @@
 import Button from 'components/Button';
 import { useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import 'styles/index.css';
 
-export default function Home() {
-  const [label, setLabel] = useState('Click Me');
+const root = document.createElement('div');
+document.body.appendChild(root);
+
+function Home() {
+  const [label, setLabel] = useState('Click');
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Button label={label} onClick={() => setLabel('nice')} />
     </div>
   );
 }
+
+createRoot(root).render(<Home />);
 
 export const meta = { title: 'Home' };
