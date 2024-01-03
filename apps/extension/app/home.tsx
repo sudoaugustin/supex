@@ -7,7 +7,7 @@ const root = document.createElement('div');
 document.body.appendChild(root);
 
 function Home() {
-  const [label, setLabel] = useState('Click Me');
+  const [label, setLabel] = useState('Click');
 
   return (
     <div className="flex items-center justify-center">

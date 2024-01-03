@@ -21,21 +21,23 @@ type Pattern = {
   excludeMatches?: string[];
 };
 
+const logBrowser = (browser?: Browser) => (browser ? `${chalk.gray(`[${browser}]`)} ` : '');
+
 export const log = {
-  error: (error: any, browser: Browser) => {
+  error: (error: any, browser?: Browser) => {
     // esbuild error handling
     if (error.errors) {
       (error.errors as BuildResult['errors']).forEach(({ text, location }) => {
         log.error(`${text}` + (location ? ` (${location.file}:${location.line}:${location.column})` : ''), browser);
       });
     } else {
-      console.log(`${chalk.gray(`[${browser}]`)} ${chalk.bold(chalk.red('✘'))} ${error}`);
+      console.log(`${logBrowser(browser)}${chalk.bold(chalk.red('✘'))} ${error}`);
     }
   },
   success: (t1: [number, number], msg: string, browser: Browser) => {
     const t2 = process.hrtime(t1);
     const ms = (t2[0] * 1000 + t2[1] / 1e6).toFixed();
-    console.log(`${chalk.gray(`[${browser}]`)} ${chalk.bold(chalk.green('✔'))} ${msg.replace('$ms', `${ms}ms`)}`);
+    console.log(`${logBrowser(browser)}${chalk.bold(chalk.green('✔'))} ${msg.replace('$ms', `${ms}ms`)}`);
   },
 };
 

@@ -26,6 +26,8 @@ function reloadStrategy({ extensionRunner, sourceDir }: ReloadOptions) {
   });
 }
 
+const stdoutWrite = process.stdout.write.bind(process.stdout);
+
 export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): Plugin {
   return {
     name: 'web-ext',
@@ -51,8 +53,14 @@ export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): P
             count++;
             const { cmd } = await import('web-ext');
             //@ts-ignore
-            const { consoleStream } = await import('web-ext/util/logger');
-            consoleStream.write = () => {};
+            const webExtLogger = await import('web-ext/util/logger');
+            webExtLogger.consoleStream.write = () => {};
+            //@ts-ignore
+            process.stdout.write = data => {
+              if (!data.includes('\rLast extension reload:' as never)) {
+                stdoutWrite(data);
+              }
+            };
             cmd.run(
               { target: browser === 'chrome' ? 'chromium' : 'firefox-desktop', noInput: true, sourceDir: outdir },
               { reloadStrategy },
