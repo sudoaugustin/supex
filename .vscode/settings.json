@@ -1,9 +1,9 @@
 {
   "eslint.enable": false,
   "editor.codeActionsOnSave": {
-    "quickfix.biome": true,
+    "quickfix.biome": "explicit",
     "source.organizeImports": "never",
-    "source.organizeImports.biome": true
+    "source.organizeImports.biome": "explicit"
   },
   "[json][jsonc][javascript][javascriptreact][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
