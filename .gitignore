@@ -48,3 +48,6 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+**/chrome.zip
+**/firefox.zip

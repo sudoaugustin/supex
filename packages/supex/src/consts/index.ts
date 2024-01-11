@@ -30,5 +30,6 @@ export const patterns = {
 
 export const extensions = {
   icon: ['svg', 'png', 'jpg'],
+  style: ['css', 'scss', 'sass'],
   script: ['tsx', 'jsx', 'ts', 'js'],
-};
+} as const;

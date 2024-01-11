@@ -48,7 +48,7 @@ export default function manifest(options: ESPluginOptions): Plugin {
   };
 }
 
-async function generateManifest({ port, outdir, browser, isBuild }: ESPluginOptions) {
+async function generateManifest({ server, outdir, browser, isBuild }: ESPluginOptions) {
   const appFiles = jetpack.find(paths.app);
 
   const files = {
@@ -193,11 +193,10 @@ async function generateManifest({ port, outdir, browser, isBuild }: ESPluginOpti
   }
 
   if (isBuild ? security : true) {
-    const url = `http://localhost:${port}`;
     if (!security) security = {};
     if (!security['default-src']) security['default-src'] = "'self'";
     const policy = Object.entries(security).reduce(
-      (string, [name, value]) => `${string} ${name} ${value}${name === 'default-src' ? ` ${url}` : ''};`,
+      (string, [name, value]) => `${string} ${name} ${value}${name === 'default-src' ? ` ${server}` : ''};`,
       '',
     );
 

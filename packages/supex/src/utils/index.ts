@@ -1,9 +1,12 @@
+import crypto from 'crypto';
 import path from 'path';
 import * as babelParser from '@babel/parser';
 import * as babelTraverse from '@babel/traverse';
 import chalk from 'chalk';
-import esbuild, { BuildResult } from 'esbuild';
+import esbuild, { BuildResult, Metafile } from 'esbuild';
 import jetpack from 'fs-jetpack';
+import hasha from 'hasha';
+import portscanner from 'portscanner';
 import { extensions, paths } from 'src/consts';
 import { Browser } from 'types';
 
@@ -41,18 +44,31 @@ export const log = {
   },
 };
 
-export const getConfig = <TConfig>(key: string) => {
-  const files = [['package.json', key], [`.${key}rc.json`], [`${key}.config.json`], [`.${key}rc.js`], [`${key}.config.js`]];
+export const getPort = () => {
+  return new Promise<number>((resolve, reject) => {
+    portscanner.findAPortNotInUse(2000, 3000, '127.0.0.1', (error, port) => (error ? reject(error) : resolve(port)));
+  });
+};
+
+export const hashFile = (file: string, type: 'css') => {
+  const hash = crypto.createHash('md5');
+  const $file = file.replace(path.join(paths.root, '/'), '');
+  hash.update($file);
+  return path.join(type, `${hash.digest('hex')}.${type}`);
+};
+
+export const getConfig = <TConfig>(name: string) => {
+  const files = [['package.json', name], [`.${name}rc.json`], [`${name}.config.json`], [`.${name}rc.js`], [`${name}.config.js`]];
   const config = files
-    .map(([file, key]) => {
+    .map(([file, name]) => {
       const configPath = path.join(paths.root, file);
       if (!jetpack.exists(configPath)) return false;
       const content = file.includes('.json') ? jetpack.read(configPath, 'json') : require(configPath);
-      return key ? content[key] : content;
+      return (name ? content[name] : content) as TConfig;
     })
     .find(Boolean);
 
-  return config as TConfig;
+  return config || ({} as TConfig);
 };
 
 export const getExports = (input: string) => {
@@ -91,6 +107,10 @@ export const getExports = (input: string) => {
   });
 };
 
+export const isStyleFile = (file: string) => {
+  return extensions.style.includes(file.split('.')[1]);
+};
+
 export const isScriptFile = (file: string) => {
   return extensions.script.includes(file.split('.')[1]);
 };
@@ -118,4 +138,8 @@ export const replaceString = (str: string, keywords: {}) => {
   return Object.entries(keywords).reduce((acc, [key, value]) => {
     return acc.replace(new RegExp(key, 'g'), `${value}`);
   }, str);
+};
+
+export const getCSSImports = (inputs: Metafile['inputs'], entry: string): string[] => {
+  return inputs[entry].imports.flatMap(({ path }) => (isScriptFile(path) ? getCSSImports(inputs, path) : isStyleFile(path) ? [path] : []));
 };

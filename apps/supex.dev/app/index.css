@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+b{
+    @apply font-medium text-slate-200;
+}
+
+
+.paging{
+    @apply px-2.5 lg:max-w-screen-2xl lg:px-10 mx-auto;
+}
+
+.supex-text{
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-100 to-slate-100/50;
+    
+}
