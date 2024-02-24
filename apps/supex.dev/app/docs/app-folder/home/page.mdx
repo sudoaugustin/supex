@@ -1,0 +1,24 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+
+# home.js
+
+This script overrides the default browser home page.
+
+<Editor sync="framework" code={codes.script} filename="app/home.js" />
+
+## Exports
+
+The script exports `meta` object which contains the metadata like page title and description.
+
+<Editor sync="language" code={codes.meta} filename="app/home.js" />
+
+## Custom Icon
+
+By default the home page icon will use the extension icon. But if you want to set custom for home page icon, please use `app/home-icon.(svg|png|jpg)`.
+
+## Custom HTML
+
+The `app/home.html` overrides the default HTML template for home page.
+
+<Editor code={codes.html} filename="app/home.html" />

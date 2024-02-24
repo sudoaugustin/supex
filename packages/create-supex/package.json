@@ -1,0 +1,29 @@
+{
+  "name": "create-supex",
+  "version": "0.0.1",
+  "description": "Create Supex extension with one command",
+  "author": "https://github.com/sudoaugustin",
+  "license": "MIT",
+  "bin": "./dist/bin.js",
+  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "repository": {
+    "url": "https://github.com/sudoaugustin/supex",
+    "type": "git",
+    "directory": "packages/create-supex"
+  },
+  "scripts": {
+    "build": "node ./scripts/build.mjs",
+    "watch": "node ./scripts/build.mjs --watch"
+  },
+  "dependencies": {
+    "arg": "^5.0.2",
+    "chalk": "4.1.2",
+    "enquirer": "^2.4.1",
+    "fs-jetpack": "^5.1.0",
+    "latest-version": "^8.0.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/prompts": "^2.4.9"
+  }
+}

@@ -2,17 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-
-b{
-    @apply font-medium text-slate-200;
+* {
+  @apply outline-none;
 }
 
-
-.paging{
-    @apply px-2.5 lg:max-w-screen-2xl lg:px-10 mx-auto;
+b {
+  @apply font-medium text-slate-200;
 }
 
-.supex-text{
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-100 to-slate-100/50;
-    
+.paging {
+  @apply px-5 lg:max-w-7xl lg:px-10 mx-auto;
+}
+
+.supex-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-100 to-slate-100/50;
+}
+
+.token {
+  &.string{
+    @apply text-emerald-500;
+  }
+  &.comment{
+    @apply text-slate-500;
+  }
+  &.keyword{
+    @apply text-fuchsia-500;
+  }
+  &.property{
+    @apply text-yellow-500;
+  }
+  &.function{
+    @apply text-rose-500;
+  }
+
+  &.parameter{
+    @apply text-orange-500;
+  }
+
+  &.operator,
+  &.punctuation{
+    @apply text-slate-300
+  }
 }

@@ -1,9 +1,9 @@
 import path from 'path';
 import chokidar from 'chokidar';
-import { Plugin } from 'esbuild';
+import { Metafile, Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
 import { extensions, paths, patterns } from 'src/consts';
-import { generateType, getExports, log } from 'src/utils';
+import { generateType, getCSSOutputs, getExports, log } from 'src/utils';
 import buildIcon from 'src/utils/buildIcon';
 import { filterOptionalPermissions, filterRequiredPermissions } from 'src/utils/filterPermissions';
 import { ESPluginOptions } from 'types';
@@ -26,6 +26,7 @@ export default function manifest(options: ESPluginOptions): Plugin {
   return {
     name: 'manifest',
     setup: build => {
+      let $metafile: Metafile;
       if (!options.isBuild) {
         const watcher = chokidar.watch(
           [
@@ -38,17 +39,21 @@ export default function manifest(options: ESPluginOptions): Plugin {
 
         watcher.on('all', async () => {
           const t1 = process.hrtime();
-          await generateManifest(options);
+          await generateManifest({ ...options, metafile: $metafile });
           log.success(t1, 'Compiled in $ms', options.browser);
         });
       }
 
-      build.onEnd(error => (error.errors.length === 0 ? generateManifest(options) : null));
+      build.onEnd(({ errors, metafile }) => {
+        if (errors.length > 0) return null;
+        $metafile = metafile as Metafile;
+        return generateManifest({ ...options, metafile: $metafile });
+      });
     },
   };
 }
 
-async function generateManifest({ server, outdir, browser, isBuild }: ESPluginOptions) {
+async function generateManifest({ server, outdir, browser, isBuild, metafile }: ESPluginOptions & { metafile: Metafile }) {
   const appFiles = jetpack.find(paths.app);
 
   const files = {
@@ -101,19 +106,20 @@ async function generateManifest({ server, outdir, browser, isBuild }: ESPluginOp
     manifest.content_scripts = await Promise.all(
       files.contents.map(async file => {
         const $file = file.split('.')[0].replace('app/', '');
+        const cssFiles = getCSSOutputs(metafile, file, browser);
         const { pattern } = await getExports(path.join(paths.root, file));
 
         return {
           js: [`./${$file}.js`, isBuild ? undefined : './reload.js'].filter(Boolean),
-          css: jetpack.exists(path.join(outdir, `./${$file}.css`)) ? [`./${$file}.css`] : undefined,
+          css: cssFiles.length > 0 ? cssFiles : undefined,
           matches: pattern.matches,
           exclude_matches: pattern.excludeMatches,
           include_globs: pattern.globs,
           exclude_globs: pattern.excludeGlobs,
           match_about_blank: pattern.matchBlank,
-          match_origin_as_fallback: browser === 'chrome' ? pattern.matchFallback : undefined,
+          // match_origin_as_fallback: browser === 'chrome' ? pattern.matchFallback : undefined,
           run_at: pattern.runAt,
-          world: browser === 'chrome' ? (pattern.isMain ? 'MAIN' : 'ISOLATED') : undefined,
+          // world: browser === 'chrome' ? (pattern.isMain ? 'MAIN' : 'ISOLATED') : undefined,
           all_frames: pattern.allFrames,
         };
       }),
@@ -184,13 +190,15 @@ async function generateManifest({ server, outdir, browser, isBuild }: ESPluginOp
     manifest.declarative_net_request = { rule_resources };
   }
 
-  if (jetpack.exists(files.public)) {
-    const outPublic = path.join(outdir, 'public');
-    if (isBuild) jetpack.copy(files.public, outPublic);
-    else if (!jetpack.exists(outPublic)) jetpack.symlink(files.public, outPublic);
-    manifest.web_accessible_resources =
-      version === 2 ? ['public/*'] : [{ resources: ['public/*'], extension_ids: ['*'], matches: ['*://*/*'] }];
-  }
+  // if (jetpack.exists(files.public)) {
+  //   const outPublic = path.join(outdir, 'public');
+  //   if (isBuild) jetpack.copy(files.public, outPublic);
+  //   else if (!jetpack.exists(outPublic)) jetpack.symlink(files.public, outPublic);
+  //   manifest.web_accessible_resources =
+  //     version === 2
+  //       ? ['public/*']
+  //       : [{ resources: (jetpack.list(files.public) || []).map(name => `public/${name}`), extension_ids: ['*'], matches: ['*://*/*'] }];
+  // }
 
   if (isBuild ? security : true) {
     if (!security) security = {};

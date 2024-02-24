@@ -2,13 +2,17 @@
   "name": "supex",
   "version": "0.0.1",
   "description": "A cross-browser extension tool",
-  "author": "sudoaugustin",
+  "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "files": [
-    "dist",
-    "types/runtime"
-  ],
+  "files": ["dist", "types/runtime"],
+  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "repository": {
+    "url": "https://github.com/sudoaugustin/supex",
+    "type": "git",
+    "directory": "packages/supex"
+  },
+
   "scripts": {
     "build": "node ./scripts/build.mjs",
     "watch": "node ./scripts/build.mjs --watch"

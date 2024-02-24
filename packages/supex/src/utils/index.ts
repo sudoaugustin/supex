@@ -5,21 +5,20 @@ import * as babelTraverse from '@babel/traverse';
 import chalk from 'chalk';
 import esbuild, { BuildResult, Metafile } from 'esbuild';
 import jetpack from 'fs-jetpack';
-import hasha from 'hasha';
 import portscanner from 'portscanner';
 import { extensions, paths } from 'src/consts';
 import { Browser } from 'types';
 
-type Meta = { icon?: string; title?: string };
+export type Meta = { icon?: string; title?: string; viewport?: string; description?: string };
 
-type Pattern = {
+export type Pattern = {
   runAt?: 'document_end' | 'document_start' | 'document_idle';
   globs?: string[];
   matches: string[];
-  isMain?: boolean;
+  // isMain?: boolean;
   allFrames?: boolean;
   matchBlank?: boolean;
-  matchFallback?: boolean;
+  // matchFallback?: boolean;
   excludeGlobs?: string[];
   excludeMatches?: string[];
 };
@@ -120,8 +119,8 @@ export const generateMeta = (meta: Meta) => {
     let $string = string;
     if (value) {
       if (name === 'title') $string += `<title>${value}</title>`;
-      else if (name === 'icon') $string += `<link rel="icon" type="image/x-icon" href='./icons/${path.basename(value)}'>`;
-      else $string += `<meta name="${name}" content="${value}">`;
+      else if (name === 'icon') $string += `<link rel="icon" type="image/x-icon" href='./icons/${path.basename(value)}' />`;
+      else $string += `<meta name="${name}" content="${value}" />`;
     }
     return $string;
   }, '');
@@ -140,6 +139,16 @@ export const replaceString = (str: string, keywords: {}) => {
   }, str);
 };
 
-export const getCSSImports = (inputs: Metafile['inputs'], entry: string): string[] => {
-  return inputs[entry].imports.flatMap(({ path }) => (isScriptFile(path) ? getCSSImports(inputs, path) : isStyleFile(path) ? [path] : []));
+export const getCSSOutputs = ({ inputs, outputs }: Metafile, entry: string, browser: Browser): string[] => {
+  function getImportedCSS(inputs: Metafile['inputs'], entry: string): string[] {
+    return inputs[entry].imports.flatMap(({ path }) =>
+      isScriptFile(path) ? getImportedCSS(inputs, path) : isStyleFile(path) ? [path] : [],
+    );
+  }
+  return [
+    ...getImportedCSS(inputs, entry).map(file => hashFile(file, 'css')),
+    ...Object.values(outputs)
+      .filter(({ entryPoint, cssBundle }) => entryPoint === entry && cssBundle)
+      .map(({ cssBundle = '' }) => cssBundle.replace(`.supex/${browser}/`, '')),
+  ];
 };

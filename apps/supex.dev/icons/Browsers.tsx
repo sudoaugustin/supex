@@ -2,7 +2,7 @@ export function ChromeIcon(props: SVGProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <title>Chrome</title>
-      <g clip-path="url(#clip0_2082_117)">
+      <g clipPath="url(#clip0_2082_117)">
         <path
           d="M7.66956 14.5L3.34012 7.00122C2.46226 8.52122 2.00006 10.2456 2 12.0009C1.99994 13.7562 2.46202 15.4806 3.33977 17.0006C4.21753 18.5207 5.48003 19.7829 7.00032 20.6603C8.5206 21.5376 10.2451 21.9993 12.0004 21.9988L16.3298 14.5V14.4987C15.8913 15.2592 15.2603 15.8907 14.5002 16.3299C13.7402 16.769 12.8779 17.0003 12.0001 17.0004C11.1223 17.0005 10.2599 16.7695 9.49968 16.3306C8.73952 15.8917 8.10829 15.2603 7.66956 14.5Z"
           fill="url(#paint0_linear_2082_117)"
@@ -22,16 +22,16 @@ export function ChromeIcon(props: SVGProps) {
       </g>
       <defs>
         <linearGradient id="paint0_linear_2082_117" x1="13.0821" y1="21.3743" x2="4.42293" y2="6.37608" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#1E8E3E" />
-          <stop offset="1" stop-color="#34A853" />
+          <stop stopColor="#1E8E3E" />
+          <stop offset="1" stopColor="#34A853" />
         </linearGradient>
         <linearGradient id="paint1_linear_2082_117" x1="10.541" y1="22.025" x2="19.2003" y2="7.02684" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#FCC934" />
-          <stop offset="1" stop-color="#FBBC04" />
+          <stop stopColor="#FCC934" />
+          <stop offset="1" stopColor="#FBBC04" />
         </linearGradient>
         <linearGradient id="paint2_linear_2082_117" x1="3.34014" y1="8.25029" x2="20.6586" y2="8.25029" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#D93025" />
-          <stop offset="1" stop-color="#EA4335" />
+          <stop stopColor="#D93025" />
+          <stop offset="1" stopColor="#EA4335" />
         </linearGradient>
         <clipPath id="clip0_2082_117">
           <rect width="20" height="20" fill="white" transform="translate(2 2)" />

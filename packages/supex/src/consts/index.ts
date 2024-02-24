@@ -1,6 +1,7 @@
 import path from 'path';
 
 const root = path.resolve();
+
 export const paths = {
   root,
   app: path.join(root, 'app'),

@@ -2,7 +2,7 @@ import path from 'path';
 import type { Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
 import { paths, patterns } from 'src/consts';
-import { generateMeta, getCSSImports, getExports, hashFile, isScriptFile, replaceString } from 'src/utils';
+import { generateMeta, getCSSOutputs, getExports, isScriptFile, replaceString } from 'src/utils';
 import { ESPluginOptions } from 'types';
 
 const defaultHTML = `
@@ -57,12 +57,7 @@ export default function html({ server, outdir, browser, isBuild }: ESPluginOptio
               const name = path.basename(fileWithoutExt);
               const html = jetpack.read(`${path.join(paths.root, fileWithoutExt)}.html`) || defaultHTML;
               const output = path.join(outdir, fileWithoutExt.replace('app/', ''));
-              const cssFiles = [
-                ...getCSSImports(metafile.inputs, file).map(file => hashFile(file, 'css')),
-                ...Object.values(metafile.outputs)
-                  .filter(({ entryPoint, cssBundle }) => entryPoint === file && cssBundle)
-                  .map(({ cssBundle = '' }) => cssBundle.replace(`.supex/${browser}/`, '')),
-              ];
+              const cssFiles = getCSSOutputs(metafile, file, browser);
               const isOverride = patterns.overrides.some(pattern => file.includes(pattern));
               const { meta = {} } = isOverride ? await getExports(file) : {};
 
@@ -71,6 +66,8 @@ export default function html({ server, outdir, browser, isBuild }: ESPluginOptio
                 if (icon) {
                   meta.icon = icon;
                   jetpack.copy(icon, path.join(outdir as string, 'icons', path.basename(icon)), { overwrite: true });
+                } else {
+                  meta.icon = 'icon-32.png';
                 }
               }
 

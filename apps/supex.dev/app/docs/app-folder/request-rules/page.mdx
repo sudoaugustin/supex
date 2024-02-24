@@ -1,0 +1,46 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+
+# Request Rules
+
+JSON files inside `app/request-rules` can modify or block the network request. The below rule block the network request if the URL contains `developer.mozilla.org`.
+
+<Editor
+  code={codes.rule}
+  filename="app/request-rules/block-mozilla-developer.json"
+/>
+
+_Note: To block or modify network request, we need `declarativeNetRequest` or `declarativeNetRequestWithHostAccess` permission. Please learn more [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest#permissions)._
+
+<Editor code={codes.config} filename="supex.json" />
+
+Now, if you try to visit [https://developer.mozilla.org](https://developer.mozilla.org/en-US/), it will fail.
+
+## `rules`
+
+Each network rules is defined by three fields:
+
+- `action`: The [action](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleAction) to take when the rule is matched.
+- `condition`: The [condition](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/RuleCondition) under which this rule is triggered.
+- `priority`: The priority of the rule which should be >= 1. Learn more about matching precedents [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest#matching_precedents).
+
+## `enabled`
+
+A boolean value indicates whether the rule should be enabled by default.
+
+## Enable or disable rules on runtime
+
+Network rules can be enabled or disabled at runtime. From the above `block-mozilla-developer` code, we change the `enabled` to `false`.
+
+<Editor
+  code={codes.rumtime.rule}
+  filename="app/request-rules/block-mozilla-developer.json"
+/>
+
+If you visit [https://developer.mozilla.org](https://developer.mozilla.org/en-US/), it will work since the rule is disabled. We can enable the rule by using [`declarativeNetRequest.updateEnabledRulesets`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/updateEnabledRulesets).
+
+<Editor code={codes.rumtime.script} filename="app/action.js" />
+
+After you click the **Enable Network Rule** from action popup, the [https://developer.mozilla.org](https://developer.mozilla.org/en-US/) will be blocked.
+
+_Note: For `enableRulesetIds` & `disableRulesetIds` of `updateEnabledRulesets` method, please use the filename of the request rules. In the above example, we used `block-mozilla-developer` which is the filename of the network rule._

@@ -54,26 +54,40 @@ export function SolidIcon(props: SVGProps) {
       />
       <defs>
         <linearGradient id="paint0_linear_2078_27" x1="4.83133" y1="2.92149" x2="19.8313" y2="10.2107" gradientUnits="userSpaceOnUse">
-          <stop offset="0.1" stop-color="#76B3E1" />
-          <stop offset="0.3" stop-color="#DCF2FD" />
-          <stop offset="1" stop-color="#76B3E1" />
+          <stop offset="0.1" stopColor="#76B3E1" />
+          <stop offset="0.3" stopColor="#DCF2FD" />
+          <stop offset="1" stopColor="#76B3E1" />
         </linearGradient>
         <linearGradient id="paint1_linear_2078_27" x1="13.0602" y1="6.48774" x2="10.4337" y2="15.2347" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#76B3E1" />
-          <stop offset="0.5" stop-color="#4377BB" />
-          <stop offset="1" stop-color="#1F3B77" />
+          <stop stopColor="#76B3E1" />
+          <stop offset="0.5" stopColor="#4377BB" />
+          <stop offset="1" stopColor="#1F3B77" />
         </linearGradient>
         <linearGradient id="paint2_linear_2078_27" x1="3.73494" y1="10.295" x2="18.9036" y2="20.6083" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#315AA9" />
-          <stop offset="0.5" stop-color="#518AC8" />
-          <stop offset="1" stop-color="#315AA9" />
+          <stop stopColor="#315AA9" />
+          <stop offset="0.5" stopColor="#518AC8" />
+          <stop offset="1" stopColor="#315AA9" />
         </linearGradient>
         <linearGradient id="paint3_linear_2078_27" x1="10.5783" y1="11.536" x2="4.45783" y2="33.9817" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#4377BB" />
-          <stop offset="0.5" stop-color="#1A336B" />
-          <stop offset="1" stop-color="#1A336B" />
+          <stop stopColor="#4377BB" />
+          <stop offset="0.5" stopColor="#1A336B" />
+          <stop offset="1" stopColor="#1A336B" />
         </linearGradient>
       </defs>
+    </svg>
+  );
+}
+
+export function VanillaIcon(props: SVGProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <title>Vanilla JS</title>
+      <path
+        d="M2 0H22C23.1046 0 24 0.895431 24 2V22C24 23.1046 23.1046 24 22 24H2C0.89543 24 0 23.1046 0 22V2C0 0.89543 0.895431 0 2 0ZM18.3467 20.1196C17.2343 20.1196 16.6053 19.5394 16.1219 18.7501L14.2891 19.8149C14.9512 21.1231 16.3044 22.1211 18.3989 22.1211C20.541 22.1211 22.136 21.0088 22.136 18.9783C22.136 17.0949 21.0541 16.2571 19.1379 15.4354L18.5741 15.1939C17.6065 14.7749 17.1874 14.501 17.1874 13.8244C17.1874 13.277 17.6061 12.8579 18.2667 12.8579C18.9143 12.8579 19.3314 13.1311 19.7181 13.8244L21.4743 12.6968C20.7314 11.3901 19.7006 10.8911 18.2667 10.8911C16.2526 10.8911 14.9638 12.1787 14.9638 13.8701C14.9638 15.7063 16.045 16.5749 17.6724 17.2682L18.2362 17.5101C19.2648 17.96 19.8781 18.2339 19.8781 19.0072C19.8781 19.6526 19.2811 20.1196 18.3467 20.1196ZM9.60647 20.1055C8.83162 20.1055 8.50933 19.5741 8.15505 18.9455L6.31924 20.057C6.85105 21.1825 7.89676 22.117 9.70247 22.117C11.701 22.117 13.0701 21.0541 13.0701 18.7189V11.0198H10.8149V18.6884C10.8149 19.8156 10.3474 20.1055 9.60647 20.1055Z"
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+      />
     </svg>
   );
 }

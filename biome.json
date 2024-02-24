@@ -10,6 +10,9 @@
         "noImplicitBoolean": "off",
         "useBlockStatements": "off"
       },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
       "complexity": { "noForEach": "off", "noBannedTypes": "off" },
       "suspicious": { "noExplicitAny": "off" },
       "performance": { "noAccumulatingSpread": "off" }
