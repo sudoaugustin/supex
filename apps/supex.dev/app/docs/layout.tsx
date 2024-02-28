@@ -34,5 +34,3 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </main>
   );
 }
-
-export const meta = {};

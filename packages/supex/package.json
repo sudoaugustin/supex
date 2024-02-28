@@ -5,16 +5,17 @@
   "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "files": ["dist", "types/runtime"],
+  "files": ["dist"],
+  "types": "dist/exports.d.ts",
   "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "homepage": "https://supex.dev",
   "repository": {
     "url": "https://github.com/sudoaugustin/supex",
     "type": "git",
     "directory": "packages/supex"
   },
-
   "scripts": {
-    "build": "node ./scripts/build.mjs",
+    "build": "node ./scripts/build.mjs && tsc types/exports.ts --declaration --emitDeclarationOnly --outDir dist",
     "watch": "node ./scripts/build.mjs --watch"
   },
   "dependencies": {
@@ -43,6 +44,7 @@
     "@types/node": "^18.0.6",
     "@types/portscanner": "^2.1.4",
     "@types/sharp": "^0.30.5",
-    "@types/treeify": "^1.0.3"
+    "@types/treeify": "^1.0.3",
+    "typescript": "^5.3.3"
   }
 }

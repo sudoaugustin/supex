@@ -2,6 +2,7 @@ import path from 'path';
 import arg from 'arg';
 import chalk from 'chalk';
 import jetpack from 'fs-jetpack';
+import { installDependencies } from 'nypm';
 import prompts, { PromptObject } from 'prompts';
 import { capitalize } from './utils';
 import { schemas } from './utils/consts';
@@ -78,6 +79,7 @@ async function getDepsGraph(names: (string | boolean)[]) {
 }
 
 async function init() {
+  const ora = (await import('ora')).default;
   const root = path.resolve();
   const response = await prompts(questions.filter(Boolean) as PromptObject[], { onCancel: () => process.exit() });
 
@@ -89,6 +91,8 @@ async function init() {
 
   const isSolid = response.framework === 'solid';
   const isReact = response.framework === 'react';
+
+  const spinner = ora('Creating required files').start();
 
   // supex.json
   jetpack.write(path.join($path, 'supex.json'), {
@@ -175,6 +179,12 @@ async function init() {
 
   // icon.png
   jetpack.copy(path.join(paths.files, 'icon.png'), path.join($path, 'app', 'icon.png'));
+
+  // Install deps
+  spinner.text = 'Installing dependencies';
+  await installDependencies({ cwd: $path, silent: true });
+
+  spinner.succeed('Done');
 }
 
 init();

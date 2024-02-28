@@ -2,9 +2,9 @@ import { schemas } from 'utils/consts';
 
 export default {
   install: {
-    solid: 'npm install supex solid-js webextension-polyfill',
-    react: 'npm install supex react react-dom webextension-polyfill',
-    vanilla: 'npm install supex webextension-polyfill',
+    solid: 'npm install supex@latest solid-js@latest webextension-polyfill@latest',
+    react: 'npm install supex@latest react react-dom@latest webextension-polyfill@latest',
+    vanilla: 'npm install supex@latest webextension-polyfill@latest',
   },
   package: `{
   "scripts": {
@@ -15,9 +15,9 @@ export default {
   }
 }`,
   typescript: {
-    solid: 'npm install typescript @types/webextension-polyfill --save-dev',
-    react: 'npm install typescript @types/webextension-polyfill @types/react @types/react-dom --save-dev',
-    vanilla: 'npm install typescript @types/webextension-polyfill --save-dev',
+    solid: 'npm install typescript@latest @types/webextension-polyfill@latest --save-dev',
+    react: 'npm install typescript@latest @types/webextension-polyfill@latest @types/react@latest @types/react-dom@latest --save-dev',
+    vanilla: 'npm install typescript@latest @types/webextension-polyfill@latest --save-dev',
   },
   configuration: `{
   "$schema": "${schemas.config}",

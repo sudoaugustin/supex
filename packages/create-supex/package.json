@@ -5,7 +5,14 @@
   "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "keywords": [
+    "supex",
+    "react",
+    "solid",
+    "cross-browser",
+    "extension",
+    "development"
+  ],
   "repository": {
     "url": "https://github.com/sudoaugustin/supex",
     "type": "git",
@@ -18,12 +25,14 @@
   "dependencies": {
     "arg": "^5.0.2",
     "chalk": "4.1.2",
-    "enquirer": "^2.4.1",
     "fs-jetpack": "^5.1.0",
     "latest-version": "^8.0.0",
+    "nypm": "^0.3.6",
+    "ora": "^8.0.1",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@types/prompts": "^2.4.9"
+    "@types/prompts": "^2.4.9",
+    "esbuild": "^0.19.5"
   }
 }
