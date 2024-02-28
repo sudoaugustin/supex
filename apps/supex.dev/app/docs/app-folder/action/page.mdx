@@ -1,0 +1,24 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+
+# action.js
+
+The script to execute when the action button of the extension is clicked.
+
+<Editor sync="framework" code={codes.script} filename="app/action.js" />
+
+## Exports
+
+The script exports `meta` object which contains the metadata like page title and description.
+
+<Editor sync="language" code={codes.meta} filename="app/action.js" />
+
+## Custom Icon
+
+By default the action icon will use the extension icon. But if you want to set custom for action icon, please use `app/action-icon.(svg|png|jpg)`.
+
+## Custom HTML
+
+The `app/action.html` overrides the default HTML template for action.
+
+<Editor code={codes.html} filename="app/action.html" />

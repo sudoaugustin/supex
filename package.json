@@ -5,15 +5,16 @@
     "build": "turbo run build",
     "watch": "turbo run watch"
   },
-  "devDependencies": {
-    "@biomejs/biome": "1.3.3",
-    "@turbo/gen": "^1.9.7",
-    "turbo": "latest"
-  },
-  "packageManager": "yarn@1.22.19",
-  "workspaces": ["apps/*", "packages/*"],
-  "version": "0.0.0",
   "dependencies": {
     "@total-typescript/ts-reset": "^0.5.1"
-  }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.4.1",
+    "@turbo/gen": "^1.11.2",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@8.9.0"
 }

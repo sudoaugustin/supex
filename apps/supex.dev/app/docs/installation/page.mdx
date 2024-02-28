@@ -1,0 +1,41 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+import { schemas } from "utils/consts";
+
+# Installation
+
+## Quick Setup
+
+The recommended method for creating a Supex app is using [`create-supex-app`](), which automatically sets up everything for you.
+
+<Editor code="npx create-supex" />
+
+This command create a folder with the project name and required config files. Supex creates [Typescript](), [ESLint]() and [Prettier]() config by default. You can also choose to use [Biome]().
+
+## Manual Installation
+
+1. Install the required dependencies
+
+   <Editor sync="framework" code={codes.install} />
+
+2. Install the typescript dependencies. Skip this if you don't use typescript in your project;
+
+   <Editor sync="framework" code={codes.typescript} />
+
+3. Add the following scripts into package.json
+
+   <Editor code={codes.package} filename="package.json" />
+
+4. Create a [`supex.json`]() file and put the following attributes
+
+   <Editor
+     code={codes.configuration}
+     filename="supex.json"
+     comment="Please replace `name`, `version` and `description` values with your extension specific."
+   />
+
+5. Create `/app` and `/public` folders.
+
+## Development Mode
+
+To run your extension in development mode, please run `npm run watch:chrome` or `npm run watch:firefox`. This command will open a browser instance with the extension loaded.

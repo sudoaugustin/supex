@@ -1,0 +1,22 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+
+# DevTools
+
+DevTools page add functionality to browser DevTools by accessing DevTools-specific extension APIs.
+
+<Editor code={codes.index} filename="app/devtools/index.js" />
+
+## Panels
+
+Script files inside `app/devtools/panels` will be used for DevTools panel pages.
+
+<Editor code={codes.profiler} filename="app/devtools/panels/profiler.js" />
+
+More than one panel script can be created inside `app/devtools/panels` with different names. When referenced in DevTool page, please use this format `devtool/panels/$name.html` where `$name` will be replaced with the name of the script file.
+
+### Custom HTML
+
+To use custom HTML for panel pages, please use `app/devtools/panels/$name.html` where the `$name` will be replaced with the name of the script file. To override the HTML for `profile.js` panel, please use the code like below.
+
+<Editor code={codes.html} filename="app/devtools/panels/profiler.html" />

@@ -1,0 +1,184 @@
+import Editor from "components/Editor";
+import { schemas } from "utils/consts";
+
+# Configuration
+
+`supex.json` can be used to declare extension's manifest informations and will be converted into `manifest.json`.
+
+## $schema
+
+Define json-schema for the Supex configuration.
+
+<Editor
+  code={`{
+   "$schema": "${schemas.config}"
+}`}
+  filename="supex.json"
+/>
+
+## name
+
+The name of extension can't be longer than 45 characters.
+
+<Editor
+  code={`{
+   "name": "supex"
+}`}
+  comment="This is a mandatory property."
+  filename="supex.json"
+/>
+
+## version
+
+The version string of an extension is a 1-4 number separated by dots.
+
+<Editor
+  code={`{
+   "version": "0.0.1"
+}`}
+  comment="This is a mandatory property."
+  filename="supex.json"
+/>
+
+## description
+
+A short explaination of the extension and can be up to 132 characters.
+
+<Editor
+  code={`{
+   "description": "This extension does nothing."
+}`}
+  comment="This is a mandatory property."
+  filename="supex.json"
+/>
+
+## author
+
+Name of extension author.
+
+<Editor
+  code={`{
+   "author": "Augustin Joseph"
+}`}
+  filename="supex.json"
+/>
+
+## commands
+
+Define the keyboard shortcuts to trigger certain actions in the extension.
+
+<Editor
+  code={`{
+  "commands": {
+    "enable-dark-mode": {
+      "key": "Ctrl+Shift+D",
+      "description": "This enable dark mode for your browser"
+    }
+  }
+}`}
+  filename="supex.json"
+/>
+
+<Editor
+  code={`browser.commands.onCommand.addListener((command) => {
+  if (command === "enable-dark-mode") {
+    document.body.style.backgroundColor = "#000";
+  }
+});`}
+  filename="app/action.js"
+/>
+
+### commands.key
+
+The key attribute in command can be either a string or an object with `default`, `mac`, `linux`, `windows` and `chromeos` attributes.
+
+<Editor
+  code={`{
+  "commands": {
+    "enable-dark-mode": {
+      "key": {
+        "mac": "Command+Shift+D",
+        "default": "Ctrl+Shift+D"
+      }
+    }
+  }
+}`}
+  filename="supex.json"
+/>
+
+## incognito
+
+Decide how the extension should behave in private browsing windows. Possible values are -
+
+- `spanning` (default): The extension will use single shared proess between private and non-private windows. Messages and events from incognito windows will be sent to that shared process.
+- `split`: The extension will use separate proesses for private and non-private windows.
+- `not_allowed`: The extension won't be enabled on private windows.
+
+<Editor
+  code={`{
+  "incognito": "spanning"
+}`}
+  filename="supex.json"
+/>
+
+## hosts
+
+List of URL patterns the extension is allowed to interact with. This property will be transformed to [`host_permissions`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/host_permissions) in manifest v3 and [`permissions`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/permissions#host_permissions) in manifest v2.
+
+<Editor
+  code={`{
+  "hosts": ["*://supex.dev/*"]
+}`}
+  filename="supex.json"
+/>
+
+## permissions
+
+### permissions.required
+
+An array of [`permissions`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/permissions#browser_compatibility) which are required for the extension to work properly.
+
+<Editor
+  code={`{
+  "permissions": {
+    "required": ["cookies", "background"]
+  }
+}`}
+  filename="supex.json"
+/>
+
+Some permissions are browser specific, e.g. `background` is only aviable on `chrome`. Supex will filter out the unsupport permissions of a browser during it's build process. So the above config will be transformed into the following manifest on `firefox`.
+
+<Editor
+  code={`{
+  "permissions": ["cookies"]
+}`}
+  filename="firefox/manifest.json"
+/>
+
+### permissions.optional
+
+An array of [`permissions`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/optional_permissions#api_permissions) which aren't necessary for the extension to work.
+
+<Editor
+  code={`{
+  "permissions": {
+    "optional": ["alarms"]
+  }
+}`}
+  filename="supex.json"
+/>
+
+## content-security
+
+This property loosen or tighten the [`content security policy`](https://content-security-policy.com/) of the extension. It is an object with directives as key instead of a string separate directives by `;`.
+
+<Editor
+  code={`{
+  "content-security": {
+    "default-src": "'self' cdn.example.com",
+    "script-src": "'self' js.example.com"
+  }
+}`}
+  filename="supex.json"
+/>

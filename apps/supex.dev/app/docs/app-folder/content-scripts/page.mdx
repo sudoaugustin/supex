@@ -1,0 +1,54 @@
+import codes from "./codes";
+import Editor from "components/Editor";
+
+# Content Scripts
+
+Script files inside `app/contents` will be used as content scripts.
+
+<Editor
+  sync="language"
+  code={codes.script}
+  filename="app/contents/example.js"
+/>
+
+<Editor code={codes.css} filename="index.css" />
+
+If you visit [example.com](https://www.example.com), the page background will be red and it'll also log `Working` in the console.
+
+_Note: For now the contents folder can contain only script files. So if you want to only apply styling, please create a script file and then import the css files into your script file._
+
+## Exports
+
+Each content script can export a `pattern` object which specifies the URL patterns to be matched in order for the script to be loaded. The `pattern` has the following properties:
+
+### `matches: string[]*`
+
+An array of URL patterns into which the script should be injected. Learn more about match patterns [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns).
+
+### `globs: string[]`
+
+An array of wildcards applied after matches to include only the URLs that match this glob. Learn more about globs [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_scripts#globs).
+
+### `runAt: string`
+
+Determines when the script file should be injected. Possible values are:
+
+- `document_idle` (Default)
+- `document_end`
+- `document_start`
+
+### `allFrames: boolean`
+
+Determines whether the script should be injected into all frames matching the specified URL requirements or only to the topmost frame. Default to `false`.
+
+### `matchBlank: boolean`
+
+Determines whether the script should be injected into an `about:blank` frame where the parent URL matches the URL requirements. Default to `false`.
+
+### `excludeGlobs: string[]`
+
+An array of wildcards applied after matches to exclude URLs that match this glob.
+
+### `excludeMatches: string[]`
+
+An array of URL patterns to exclude from the match.

@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Supex Configuration",
+  "type": "object",
+  "properties": {
+    "$schema": true,
+    "name": {
+      "type": "string",
+      "maxLength": 45
+    },
+    "author": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+(\\.[0-9]+){0,3}$"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 132
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "key": { "oneOf": [{ "type": "string" }, { "$ref": "#/definitions/Device" }] },
+          "description": { "type": "string", "minLength": 10 }
+        },
+        "required": ["key", "description"],
+        "additionalProperties": false
+      }
+    },
+    "incognito": {
+      "type": "string",
+      "enum": ["spanning", "split", "not_allowed"],
+      "default": "spanning"
+    },
+    "hosts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "array", "items": { "type": "string" } },
+        "optional": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "content-security": {
+      "type": "object"
+    }
+  },
+  "required": ["name", "version", "description"],
+  "additionalProperties": false,
+  "definitions": {
+    "Device": {
+      "type": "object",
+      "properties": {
+        "mac": { "type": "string" },
+        "linux": { "type": "string" },
+        "default": { "type": "string" },
+        "windows": { "type": "string" },
+        "chromeos": { "type": "string" }
+      },
+      "required": ["default"]
+    }
+  }
+}

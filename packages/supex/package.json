@@ -2,31 +2,49 @@
   "name": "supex",
   "version": "0.0.1",
   "description": "A cross-browser extension tool",
-  "author": "sudoaugustin",
+  "author": "https://github.com/sudoaugustin",
   "license": "MIT",
-  "bin": {
-    "supex": "./dist/bin.js"
+  "bin": "./dist/bin.js",
+  "files": ["dist"],
+  "types": "dist/exports.d.ts",
+  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "homepage": "https://supex.dev",
+  "repository": {
+    "url": "https://github.com/sudoaugustin/supex",
+    "type": "git",
+    "directory": "packages/supex"
   },
-  "files": [
-    "dist",
-    "defaults"
-  ],
   "scripts": {
-    "build": "node ./scripts/build.mjs",
-    "watch": "node ./scripts/build.mjs -W"
+    "build": "node ./scripts/build.mjs && tsc types/exports.ts --declaration --emitDeclarationOnly --outDir dist",
+    "watch": "node ./scripts/build.mjs --watch"
   },
   "dependencies": {
+    "@babel/parser": "^7.23.4",
+    "@babel/traverse": "^7.23.4",
+    "archiver": "^6.0.1",
     "arg": "^5.0.2",
     "chalk": "4.1.2",
     "chokidar": "^3.5.3",
+    "clean-css": "^5.3.3",
+    "debounce": "^2.0.0",
     "esbuild": "^0.19.5",
+    "esbuild-plugin-solid": "^0.5.0",
     "fs-jetpack": "^5.1.0",
-    "nanoid": "3.3.2",
-    "sharp": "^0.32.4"
+    "hasha": "^6.0.0",
+    "portscanner": "^2.2.0",
+    "postcss": "^8.4.18",
+    "sharp": "^0.32.4",
+    "treeify": "^1.1.0",
+    "web-ext": "^7.9.0"
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.2",
+    "@types/babel__traverse": "^7.20.4",
+    "@types/clean-css": "^4.2.11",
     "@types/node": "^18.0.6",
+    "@types/portscanner": "^2.1.4",
     "@types/sharp": "^0.30.5",
-    "has-flag": "^5.0.1"
+    "@types/treeify": "^1.0.3",
+    "typescript": "^5.3.3"
   }
 }

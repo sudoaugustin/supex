@@ -1,0 +1,295 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Rules",
+  "description": "Extension's network request rules",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["allow", "block", "redirect", "upgradeScheme", "modifyHeaders", "allowAllRequests"],
+                "description": "Describes the kind of action to take if a given condition matches."
+              },
+              "redirect": {
+                "$ref": "#/definitions/Redirect",
+                "description": "Describes how the redirect should be performed. Only valid for redirect rules."
+              },
+              "requestHeaders": {
+                "$ref": "#/definitions/ModifyHeaderInfo",
+                "description": "The request headers to modify for the request. Only valid if type is `modifyHeaders`."
+              },
+              "responseHeaders": {
+                "$ref": "#/definitions/ModifyHeaderInfo",
+                "description": "The response headers to modify for the request. Only valid if type is `modifyHeaders`."
+              }
+            },
+            "required": ["type"]
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Priority order of the rule execution."
+          },
+          "condition": {
+            "$ref": "#/definitions/RuleCondition",
+            "description": "Conditions that determine whether the rule matches a request."
+          }
+        },
+        "required": ["action", "condition"]
+      }
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Decide whether the ruleset is enabled."
+    }
+  },
+  "required": ["rules"],
+  "definitions": {
+    "Redirect": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The redirect URL. Redirects to JavaScript URLs are not allowed."
+        },
+        "extensionPath": {
+          "type": "string",
+          "description": "The path relative to the extension directory. Should start with '/'."
+        },
+        "regexSubstitution": {
+          "type": "string",
+          "description": "The substitution pattern for rules that specify a regexFilter. Uses backslash-escaped digits to insert capture groups."
+        },
+        "transform": {
+          "$ref": "#/definitions/URLTransform",
+          "description": "The URL transformations to perform."
+        }
+      }
+    },
+    "ModifyHeaderInfo": {
+      "description": "Request or response header modification for a request",
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "string",
+          "description": "The name of the header to be modified"
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["append", "set", "remove"],
+          "description": "The operation to be performed on the header"
+        },
+        "value": {
+          "type": "string",
+          "description": "The new value for the header (required for append and set operations)"
+        }
+      },
+      "required": ["header", "operation"],
+      "dependencies": {
+        "value": {
+          "oneOf": [{ "properties": { "operation": { "const": "append" } } }, { "properties": { "operation": { "const": "set" } } }]
+        }
+      }
+    },
+    "RuleCondition": {
+      "type": "object",
+      "properties": {
+        "domainType": {
+          "type": "string",
+          "enum": ["firstParty", "thirdParty"],
+          "description": "Specifies whether the network request is first-party or third-party to the domain from where it originated."
+        },
+        "initiatorDomains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of domains from which the network requests originate."
+        },
+        "excludedInitiatorDomains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of domains from which the network requests should not be matched."
+        },
+        "isUrlFilterCaseSensitive": {
+          "type": "boolean",
+          "description": "Determines whether the URL filter or regex filter (whichever is specified) is case sensitive."
+        },
+        "regexFilter": {
+          "type": "string",
+          "description": "A regular expression used to match against the network request URL."
+        },
+        "requestDomains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of domains for which the rule should match network requests."
+        },
+        "excludedRequestDomains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of domains for which the rule should not match network requests."
+        },
+        "requestMethods": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["get", "put", "post", "patch", "delete", "head", "connect", "options", "other"] },
+          "description": "List of HTTP request methods that the rule matches."
+        },
+        "excludedRequestMethods": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["get", "put", "post", "patch", "delete", "head", "connect", "options", "other"] },
+          "description": "List of request methods that the rule does not match on."
+        },
+        "resourceTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "main_frame",
+              "sub_frame",
+              "stylesheet",
+              "script",
+              "image",
+              "font",
+              "object",
+              "xmlhttprequest",
+              "ping",
+              "csp_report",
+              "media",
+              "websocket",
+              "webtransport",
+              "webbundle",
+              "other"
+            ]
+          },
+          "description": "List of resource types that the rule matches with."
+        },
+        "excludedResourceTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "main_frame",
+              "sub_frame",
+              "stylesheet",
+              "script",
+              "image",
+              "font",
+              "object",
+              "xmlhttprequest",
+              "ping",
+              "csp_report",
+              "media",
+              "websocket",
+              "webtransport",
+              "webbundle",
+              "other"
+            ]
+          },
+          "description": "List of resource types that the rule does not match on."
+        },
+        "tabIds": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "List of tabs.Tab.id that the rule should match."
+        },
+        "excludedTabIds": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "List of tabs.Tab.id that the rule should not match."
+        },
+        "urlFilter": {
+          "type": "string",
+          "description": "The pattern that is matched against the network request URL."
+        }
+      },
+      "additionalProperties": false
+    },
+    "URLTransform": {
+      "type": "object",
+      "properties": {
+        "fragment": {
+          "type": "string",
+          "description": "The new fragment for the request. Should be either empty or begin with '#'."
+        },
+        "host": {
+          "type": "string",
+          "description": "The new host name for the request."
+        },
+        "password": {
+          "type": "string",
+          "description": "The new password for the request."
+        },
+        "path": {
+          "type": "string",
+          "description": "The new path for the request. If empty, the existing path is cleared."
+        },
+        "port": {
+          "type": "string",
+          "description": "The new port for the request. If empty, the existing port is cleared."
+        },
+        "query": {
+          "type": "string",
+          "description": "The new query for the request. Should be either empty or begin with '?'."
+        },
+        "queryTransform": {
+          "$ref": "#/definitions/QueryTransform",
+          "description": "Description of how to add, remove, or replace query key-value pairs."
+        },
+        "addOrReplaceParams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": { "type": "string" },
+              "replaceOnly": { "type": "boolean" },
+              "value": { "type": "string" }
+            },
+            "required": ["key", "value"],
+            "additionalProperties": false
+          }
+        },
+        "removeParams": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scheme": {
+          "type": "string",
+          "description": "The new scheme for the request."
+        },
+        "username": {
+          "type": "string",
+          "description": "The new username for the request."
+        }
+      }
+    },
+    "QueryTransform": {
+      "type": "object",
+      "properties": {
+        "addOrReplaceParams": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": { "type": "string" },
+              "replaceOnly": { "type": "boolean" },
+              "value": { "type": "string" }
+            },
+            "required": ["key", "value"],
+            "additionalProperties": false
+          }
+        },
+        "removeParams": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
