@@ -5,14 +5,7 @@
   "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "keywords": [
-    "supex",
-    "react",
-    "solid",
-    "cross-browser",
-    "extension",
-    "development"
-  ],
+  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
   "repository": {
     "url": "https://github.com/sudoaugustin/supex",
     "type": "git",
