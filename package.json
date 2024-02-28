@@ -11,7 +11,6 @@
   "devDependencies": {
     "@biomejs/biome": "^1.4.1",
     "@turbo/gen": "^1.11.2",
-    "create-supex": "workspace:*",
     "turbo": "latest"
   },
   "engines": {
