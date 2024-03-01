@@ -22,7 +22,7 @@ importers:
         specifier: latest
         version: 1.11.3
 
-  apps/supex-website:
+  apps/supex.dev:
     dependencies:
       '@heroicons/react':
         specifier: ^2.1.1
