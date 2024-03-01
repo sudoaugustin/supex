@@ -1,10 +1,9 @@
 'use client';
-import { ChevronDownIcon, CommandLineIcon, DocumentIcon, DocumentTextIcon } from '@heroicons/react/16/solid';
+import { ChevronDownIcon, CommandLineIcon, DocumentTextIcon } from '@heroicons/react/16/solid';
 import { CheckIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import * as Select from '@radix-ui/react-select';
 import { toHtml } from 'hast-util-to-html';
 import { VanillaIcon } from 'icons';
-import { Nodes } from 'node_modules/hast-util-to-html/lib';
 import { useEffect, useState } from 'react';
 import { refractor } from 'refractor';
 import langBash from 'refractor/lang/bash';
@@ -108,7 +107,9 @@ export default function Editor({ code, comment, sync, filename = '' }: Props) {
       </div>
       <pre
         className={`font-medium font-mono p-4 not-prose overflow-auto text-cyan-500 ${lang}`}
-        dangerouslySetInnerHTML={{ __html: toHtml(refractor.highlight(`${$code}${comment ? `\n\n/* ${comment} */` : ''}`, lang) as Nodes) }}
+        dangerouslySetInnerHTML={{
+          __html: toHtml(refractor.highlight(`${$code}${comment ? `\n\n/* ${comment} */` : ''}`, lang) as never),
+        }}
       />
     </div>
   );

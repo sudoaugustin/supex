@@ -1,18 +1,12 @@
 {
   "name": "create-supex",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Create Supex extension with one command",
   "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "keywords": [
-    "supex",
-    "react",
-    "solid",
-    "cross-browser",
-    "extension",
-    "development"
-  ],
+  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "homepage": "supex.dev",
   "repository": {
     "url": "https://github.com/sudoaugustin/supex",
     "type": "git",

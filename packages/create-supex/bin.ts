@@ -67,6 +67,11 @@ function exit(message: string) {
   process.exit();
 }
 
+function getPackageManager() {
+  const agent = process.env.npm_config_user_agent || '';
+  return agent.startsWith('bun') ? 'bun' : agent.startsWith('yarn') ? 'yarn' : agent.startsWith('pnpm') ? 'pnpm' : 'npm';
+}
+
 async function getDepsGraph(names: (string | boolean)[]) {
   const { default: latest } = await import('latest-version');
   const packages = await Promise.all(
@@ -111,13 +116,7 @@ async function init() {
       'build:chrome': 'supex build --browser=chrome',
       'build:firefox': 'supex build --browser=chrome',
     },
-    dependencies: await getDepsGraph([
-      // 'supex',
-      'webextension-polyfill',
-      isReact && 'react',
-      isReact && 'react-dom',
-      isSolid && 'solid-js',
-    ]),
+    dependencies: await getDepsGraph(['supex', 'webextension-polyfill', isReact && 'react', isReact && 'react-dom', isSolid && 'solid-js']),
     devDependencies: await getDepsGraph([
       '@types/webextension-polyfill',
       isReact && '@types/react',
@@ -182,8 +181,7 @@ async function init() {
 
   // Install deps
   spinner.text = 'Installing dependencies';
-  await installDependencies({ cwd: $path, silent: true });
-
+  await installDependencies({ cwd: $path, silent: true, packageManager: getPackageManager() });
   spinner.succeed('Done');
 }
 
