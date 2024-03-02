@@ -1,8 +1,8 @@
-# Supex
+![⌛](https://raw.githubusercontent.com/sudoaugustin/supex/main/.github/assets/preview.png)
 
 ## Documentation
 
-Please visit [supex.dev/docs](https://supex.dev/docs) for documentation.
+Please visit [supex.dev/docs/installation](https://www.supex.dev/docs/installation) for documentation.
 
 ## Discussions
 

@@ -10,7 +10,7 @@ const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', weigh
 const links = [
   { name: 'Docs', href: '/docs/installation' },
   { name: 'Github', href: 'https://github.com/sudoaugustin/supex' },
-  // { name: 'Discord', href: '' },
+  { name: 'Discussions', href: 'https://github.com/sudoaugustin/supex/discussions' },
 ];
 
 export const metadata: Metadata = {
