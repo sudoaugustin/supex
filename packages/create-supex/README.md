@@ -1,4 +1,4 @@
-# Create Supex
+![⌛](https://raw.githubusercontent.com/sudoaugustin/supex/main/.github/assets/preview.png)
 
 The recommended method for creating a Supex app is using [`create-supex`](https://www.npmjs.com/package/create-supex), which automatically sets up everything for you.
 
