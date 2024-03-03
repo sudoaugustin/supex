@@ -38,7 +38,7 @@ export default {
     script: `...
 
 const enableMozillaRule = () => {
-  declarativeNetRequest.updateEnabledRulesets({ enableRulesetIds: ['block-mozilla-developer'] });
+  declarativeNetRequest.updateEnabledRulesets({ enableRulesetIds: ['block-mozilla'] });
 };
 
 function Action() {
