@@ -5,10 +5,7 @@ import Editor from "components/Editor";
 
 JSON files inside `app/request-rules` can modify or block the network request. The below rule block the network request if the URL contains `developer.mozilla.org`.
 
-<Editor
-  code={codes.rule}
-  filename="app/request-rules/block-mozilla-developer.json"
-/>
+<Editor code={codes.rule} filename="app/request-rules/block-mozilla.json" />
 
 _Note: To block or modify network request, we need `declarativeNetRequest` or `declarativeNetRequestWithHostAccess` permission. Please learn more [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest#permissions)._
 
@@ -30,11 +27,11 @@ A boolean value indicates whether the rule should be enabled by default.
 
 ## Enable or disable rules on runtime
 
-Network rules can be enabled or disabled at runtime. From the above `block-mozilla-developer` code, we change the `enabled` to `false`.
+Network rules can be enabled or disabled at runtime. From the above `block-mozilla` code, we change the `enabled` to `false`.
 
 <Editor
   code={codes.rumtime.rule}
-  filename="app/request-rules/block-mozilla-developer.json"
+  filename="app/request-rules/block-mozilla.json"
 />
 
 If you visit [https://developer.mozilla.org](https://developer.mozilla.org/en-US/), it will work since the rule is disabled. We can enable the rule by using [`declarativeNetRequest.updateEnabledRulesets`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/declarativeNetRequest/updateEnabledRulesets).
@@ -43,4 +40,4 @@ If you visit [https://developer.mozilla.org](https://developer.mozilla.org/en-US
 
 After you click the **Enable Network Rule** from action popup, the [https://developer.mozilla.org](https://developer.mozilla.org/en-US/) will be blocked.
 
-_Note: For `enableRulesetIds` & `disableRulesetIds` of `updateEnabledRulesets` method, please use the filename of the request rules. In the above example, we used `block-mozilla-developer` which is the filename of the network rule._
+_Note: For `enableRulesetIds` & `disableRulesetIds` of `updateEnabledRulesets` method, please use the filename of the request rules. In the above example, we used `block-mozilla` which is the filename of the network rule._

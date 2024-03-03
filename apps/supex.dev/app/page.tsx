@@ -7,7 +7,7 @@ import Link from 'next/link';
 const feats = [
   {
     title: 'Libraries',
-    content: "Supex isn't library biased. You can choose to write in vanilla, react or solid",
+    content: 'Supex supports vanilla, react and solid. Will try to add more soon.',
     illustration: (
       <>
         <ReactIcon />
@@ -56,11 +56,11 @@ const feats = [
 export default function Home() {
   return (
     <main className="py-10 lg:py-20 paging text-center">
-      <h1 className="text-4xl font-semibold supex-text capitalize">Seamless browser extension development</h1>
+      <h1 className="text-2xl lg:text-4xl font-semibold supex-text capitalize">Seamless browser extension development</h1>
       <p className="mt-5 mb-10 text-slate-500 max-w-screen-lg mx-auto">
         Supex helps you create <b>cross-browser extensions</b> and integrated with esbuild for fast rebuilds.
       </p>
-      <div className="grid grid-cols-3 gap-5 max-w-screen-xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-screen-xl mx-auto">
         {feats.map(({ title, content, illustration }) => (
           <div
             key={title}
@@ -68,7 +68,9 @@ export default function Home() {
           >
             {/* <ArrowLongRightIcon className="absolute top-2.5 right-2.5 w-4 text-slate-600 group-hover:opacity-100 opacity-0 duration-200" /> */}
 
-            {illustration && <div className="space-x-2.5 [&>svg]:w-10 flex items-center text-slate-400">{illustration}</div>}
+            {illustration && (
+              <div className="space-x-1.5 lg:space-x-2.5 [&>svg]:w-8 lg:[&>svg]:w-10 flex items-center text-slate-400">{illustration}</div>
+            )}
             <h2 className="text-lg font-semibold text-slate-50 mt-2.5 mb-1">{title}</h2>
             <p className="text-sm">{content}</p>
           </div>

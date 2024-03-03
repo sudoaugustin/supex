@@ -57,7 +57,7 @@ export default function Editor({ code, comment, sync, filename = '' }: Props) {
   }, [sync]);
 
   return (
-    <div className="border border-slate-600/35 my-5 relative w-full rounded-md text-sm after:bg-slate-800/15 after:backdrop-blur-md after:absolute after:inset-0 after:-z-10">
+    <div className="border border-slate-600/35 my-5 relative w-full rounded-md text-xs lg:text-sm after:bg-slate-800/15 after:backdrop-blur-md after:absolute after:inset-0 after:-z-10">
       <div className="flex justify-between px-4 border-b border-slate-600/35">
         <p className="flex items-center space-x-1 text-slate-600 select-none">
           {icons[lang as never]}
