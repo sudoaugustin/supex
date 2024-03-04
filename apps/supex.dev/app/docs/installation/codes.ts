@@ -8,10 +8,10 @@ export default {
   },
   package: `{
   "scripts": {
-      "watch:chrome": "supex watch --browser=chrome",
-      "watch:firefox": "supex watch --browser=chrome",
-      "build:chrome": "supex build --browser=chrome",
-      "build:firefox": "supex build --browser=chrome" 
+    "watch:chrome": "supex watch --browser=chrome",
+    "watch:firefox": "supex watch --browser=chrome",
+    "build:chrome": "supex build --browser=chrome",
+    "build:firefox": "supex build --browser=chrome" 
   }
 }`,
   typescript: {
