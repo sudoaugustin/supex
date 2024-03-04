@@ -1,6 +1,5 @@
 'use client';
 
-import { ChevronRightIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -27,7 +26,7 @@ export default function OnThisPage() {
   }, [pathname]);
 
   return (
-    <nav className="py-5 lg:py-10 text-sm max-xl:hidden w-60">
+    <nav className="py-5 lg:py-10 text-sm max-xl:hidden w-56">
       <h5 className="font-semibold">On This Page</h5>
       <div key={pathname} className="space-y-2.5 mt-5">
         {headings.map(({ id, tag, label }, index) => (

@@ -22,7 +22,7 @@ export default function NavBar({ pages }: Props) {
   return (
     <>
       <aside
-        className={`py-5 fixed z-5 max-lg:px-5 max-lg:rounded-md max-lg:inset-x-2.5 max-lg:bg-slate-800 lg:py-10 lg:w-60 duration-200
+        className={`py-5 max-lg:fixed max-lg:z-5 max-lg:px-5 max-lg:rounded-md max-lg:inset-x-2.5 max-lg:bg-slate-800 lg:py-10 lg:w-60 duration-200
         ${isOpen ? 'max-lg:translate-y-0 max-lg:bottom-2.5' : 'max-lg:translate-y-full max-lg:bottom-0'}`}
       >
         {pages.map(({ path, label, subLinks }) => {
