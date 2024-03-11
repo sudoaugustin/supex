@@ -6,7 +6,7 @@ let t1: [number, number];
 
 export default function logger({ browser }: ESPluginOptions): Plugin {
   return {
-    name: 'web-ext',
+    name: 'logger',
     setup: build => {
       build.onStart(() => {
         t1 = process.hrtime();

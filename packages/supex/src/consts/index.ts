@@ -14,7 +14,7 @@ export const paths = {
   ],
 };
 
-export const browsers = ['chrome', 'firefox'] as const;
+export const browsers = ['chrome', 'firefox', 'safari', 'opera', 'edge'] as const;
 
 export const patterns = {
   icons: {

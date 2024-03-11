@@ -30,7 +30,7 @@ const stdoutWrite = process.stdout.write.bind(process.stdout);
 
 export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): Plugin {
   return {
-    name: 'web-ext',
+    name: 'supex-postbuild',
     setup: build => {
       let count = 0;
       build.onEnd(async error => {
@@ -49,7 +49,7 @@ export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): P
             });
           }
 
-          if (count === 0) {
+          if (count === 0 && (browser === 'chrome' || browser === 'firefox')) {
             count++;
             const { cmd } = await import('web-ext');
             //@ts-ignore
