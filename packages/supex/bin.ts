@@ -10,7 +10,7 @@ import html from 'src/plugins/html';
 import logger from 'src/plugins/logger';
 import manifest from 'src/plugins/manifest';
 import postbuild from 'src/plugins/postbuild';
-import { getPort } from 'src/utils';
+import { getPort, log } from 'src/utils';
 import preflight from 'src/utils/preflight';
 import { Browser } from 'types';
 

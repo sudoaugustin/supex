@@ -1,13 +1,13 @@
 import { ArrowLongRightIcon } from '@heroicons/react/16/solid';
 import { ReactIcon, SolidIcon, VanillaIcon } from 'icons';
-import { ChromeIcon, FirefoxIcon } from 'icons/Browsers';
+import { ChromeIcon, EdgeIcon, FirefoxIcon, OperaIcon, SafariIcon } from 'icons/Browsers';
 import { CSSModulesIcon, JSSIcon, SassIcon, TailwindIcon } from 'icons/CSSSolutions';
 import Link from 'next/link';
 
 const feats = [
   {
     title: 'Libraries',
-    content: 'Supex supports vanilla, react and solid. Will try to add more soon.',
+    content: 'Supex supports Vanilla, React and Solid.',
     illustration: (
       <>
         <ReactIcon />
@@ -18,17 +18,20 @@ const feats = [
   },
   {
     title: 'Cross-Browser',
-    content: 'Generates builds for Chrome and Firefox. Builds for more browsers will be added.',
+    content: 'Generates builds for all modern browsers.',
     illustration: (
       <>
         <ChromeIcon />
         <FirefoxIcon />
+        <EdgeIcon />
+        <OperaIcon />
+        <SafariIcon />
       </>
     ),
   },
   {
     title: 'Styling',
-    content: 'Supports Tailwind, Sass, CSS Modules and CSS-in-JS.',
+    content: 'Supports Tailwind, Sass, CSS Modules and JSS.',
     illustration: (
       <>
         <TailwindIcon />

@@ -10,8 +10,13 @@ export default {
   "scripts": {
     "watch:chrome": "supex watch --browser=chrome",
     "watch:firefox": "supex watch --browser=chrome",
+    
+    "build": "supex build",
     "build:chrome": "supex build --browser=chrome",
-    "build:firefox": "supex build --browser=chrome" 
+    "build:firefox": "supex build --browser=chrome",
+    "build:edge": "supex build --browser=edge",
+    "build:opera": "supex build --browser=opera",
+    "build:safari": "supex build --browser=safari",
   }
 }`,
   typescript: {
