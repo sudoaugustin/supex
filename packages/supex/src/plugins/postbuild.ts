@@ -28,7 +28,7 @@ function reloadStrategy({ extensionRunner, sourceDir }: ReloadOptions) {
 
 const stdoutWrite = process.stdout.write.bind(process.stdout);
 
-export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): Plugin {
+export default function webExt({ outdir, browser, isBuild, isHeadless }: ESPluginOptions & { isHeadless: boolean }): Plugin {
   return {
     name: 'supex-postbuild',
     setup: build => {
@@ -49,7 +49,7 @@ export default function webExt({ outdir, browser, isBuild }: ESPluginOptions): P
             });
           }
 
-          if (count === 0 && (browser === 'chrome' || browser === 'firefox')) {
+          if (!isHeadless && count === 0 && (browser === 'chrome' || browser === 'firefox')) {
             count++;
             const { cmd } = await import('web-ext');
             //@ts-ignore
