@@ -10,16 +10,17 @@ import html from 'src/plugins/html';
 import logger from 'src/plugins/logger';
 import manifest from 'src/plugins/manifest';
 import postbuild from 'src/plugins/postbuild';
-import { getPort, log } from 'src/utils';
+import { getPort } from 'src/utils';
 import preflight from 'src/utils/preflight';
 import { Browser } from 'types';
 
 type Command = 'build';
 
-const args = arg({ '--help': Boolean, '--browser': String });
+const args = arg({ '--browser': String, '--headless': Boolean });
 const command = args._[0] as Command;
 const isBuild = command === 'build';
 const $browsers = (args['--browser']?.split(',') || browsers) as Browser[];
+const isHeadless = !!args['--headless'];
 const { version } = require('./package.json');
 
 console.log(chalk.blue(chalk.bold(`Supex ${version}`)));
@@ -40,9 +41,14 @@ $browsers.forEach(async (browser, index) => {
     outdir,
     bundle: true,
     minify: isBuild,
-    plugins: [isSolid && solidPlugin(), css(options), html(options), manifest(options), postbuild(options), logger(options)].filter(
-      Boolean,
-    ),
+    plugins: [
+      isSolid && solidPlugin(),
+      css(options),
+      html(options),
+      manifest(options),
+      postbuild({ ...options, isHeadless }),
+      logger(options),
+    ].filter(Boolean),
     logLevel: 'silent',
     metafile: true,
     loader: { '.css': 'empty' },

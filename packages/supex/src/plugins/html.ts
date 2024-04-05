@@ -67,7 +67,7 @@ export default function html({ server, outdir, browser, isBuild }: ESPluginOptio
                   meta.icon = icon;
                   jetpack.copy(icon, path.join(outdir as string, 'icons', path.basename(icon)), { overwrite: true });
                 } else {
-                  meta.icon = 'icon-32.png';
+                  meta.icon = isBuild ? 'icon-32.png' : 'icon-256.png';
                 }
               }
 
