@@ -190,15 +190,15 @@ async function generateManifest({ server, outdir, browser, isBuild, metafile }: 
     manifest.declarative_net_request = { rule_resources };
   }
 
-  // if (jetpack.exists(files.public)) {
-  //   const outPublic = path.join(outdir, 'public');
-  //   if (isBuild) jetpack.copy(files.public, outPublic);
-  //   else if (!jetpack.exists(outPublic)) jetpack.symlink(files.public, outPublic);
-  //   manifest.web_accessible_resources =
-  //     version === 2
-  //       ? ['public/*']
-  //       : [{ resources: (jetpack.list(files.public) || []).map(name => `public/${name}`), extension_ids: ['*'], matches: ['*://*/*'] }];
-  // }
+  if (jetpack.exists(files.public)) {
+    const outPublic = path.join(outdir, 'public');
+    if (isBuild) jetpack.copy(files.public, outPublic);
+    else if (!jetpack.exists(outPublic)) jetpack.symlink(files.public, outPublic);
+    manifest.web_accessible_resources =
+      version === 2
+        ? ['public/*']
+        : [{ resources: (jetpack.list(files.public) || []).map(name => `public/${name}`), extension_ids: ['*'], matches: ['*://*/*'] }];
+  }
 
   if (isBuild ? security : true) {
     if (!security) security = {};
