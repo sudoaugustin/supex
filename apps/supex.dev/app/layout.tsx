@@ -29,7 +29,7 @@ export default function RootLayout({
       className="!scroll-smooth bg-slate-950 after:inset-0 after:-z-5 after:fixed after:bg-gradient-to-b after:from-brand-600/15 after:to-brand-600/5"
     >
       <body className={`text-slate-400 font-sans relative pt-16 text-sm lg:text-base ${mono.variable} ${sans.variable}`}>
-        <header className="fixed top-0 border-b z-5 border-slate-800/75 w-full backdrop-blur-sm">
+        <header className="fixed top-0 border-b z-10 border-slate-800/75 w-full backdrop-blur-sm">
           <div className="h-16 paging flex justify-between items-center">
             <Link href="/" className="flex items-center">
               <LogoText className="w-20 max-lg:hidden contrast-125 brightness-150" />
