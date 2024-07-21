@@ -1,4 +1,4 @@
 packages:
   - "apps/*"
   - "packages/*"
-  - "my-super-extension"
+  - "playground/*"

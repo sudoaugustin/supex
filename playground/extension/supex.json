@@ -1,0 +1,16 @@
+{
+  "$schema": "/Users/augustin/Projects/supex/packages/schemas/config/0.0.1.json",
+  "name": "Chromie",
+  "author": "Augustin Joseph",
+  "version": "0.0.0.1",
+  "description": "Sharing is caring",
+  "commands": {
+    "hellwoorld": { "key": "Ctrl+R", "description": "hellwoorld" }
+  },
+  "hosts": ["*://developer.mozilla.org/*"],
+  "incognito": "spanning",
+  "permissions": {
+    "required": ["declarativeNetRequest", "debugger"],
+    "optional": ["alarms", "browserSettings", "contextualIdentities"]
+  }
+}

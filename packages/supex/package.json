@@ -5,9 +5,18 @@
   "author": "https://github.com/sudoaugustin",
   "license": "MIT",
   "bin": "./dist/bin.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "types": "dist/exports.d.ts",
-  "keywords": ["supex", "react", "solid", "cross-browser", "extension", "development"],
+  "keywords": [
+    "supex",
+    "react",
+    "solid",
+    "cross-browser",
+    "extension",
+    "development"
+  ],
   "homepage": "https://supex.dev",
   "repository": {
     "url": "https://github.com/sudoaugustin/supex",
@@ -21,6 +30,7 @@
   "dependencies": {
     "@babel/parser": "^7.23.4",
     "@babel/traverse": "^7.23.4",
+    "@rspack/core": "^0.7.5",
     "archiver": "^6.0.1",
     "arg": "^5.0.2",
     "chalk": "4.1.2",

@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "watch": "turbo run watch"
+    "watch": "turbo run watch",
+    "watch:supex": "turbo run watch --filter=supex"
   },
   "dependencies": {
     "@total-typescript/ts-reset": "^0.5.1"
