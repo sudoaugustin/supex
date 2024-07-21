@@ -23,9 +23,9 @@ const feats = [
       <>
         <ChromeIcon />
         <FirefoxIcon />
-        <EdgeIcon />
+        {/* <EdgeIcon />
         <OperaIcon />
-        <SafariIcon />
+        <SafariIcon /> */}
       </>
     ),
   },
