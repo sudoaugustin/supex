@@ -55,6 +55,7 @@ $browsers.forEach(async (browser, index) => {
     sourcemap: isBuild ? false : 'inline',
     entryPoints: extensions.script.map(ext => `${paths.app}/**/*.${ext}`), // TODO: Check the project folder to compile only ts,tsx or js,jsx
     ...(isSolid ? { jsx: 'preserve', jsxImportSource: 'solid-js' } : { jsx: 'automatic' }),
+    define: { 'process.env.BROWSER': browser },
   });
 
   if (isBuild) {
