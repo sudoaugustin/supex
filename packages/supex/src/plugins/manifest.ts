@@ -96,6 +96,10 @@ async function generateManifest({ server, outdir, browser, isBuild, metafile }: 
       default_title: meta.title,
       default_popup: 'action.html',
     };
+  } else if (files.icons.action) {
+    manifest[version === 2 ? 'browser_action' : 'action'] = {
+      default_icon: files.icons.action ? await buildIcon({ outdir, input: files.icons.action, isBuild }) : undefined,
+    };
   }
 
   if (files.worker) {
