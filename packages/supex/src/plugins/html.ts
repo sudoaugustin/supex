@@ -59,7 +59,9 @@ export default function html({ server, outdir, browser, isBuild }: ESPluginOptio
               const output = path.join(outdir, fileWithoutExt.replace('app/', ''));
               const cssFiles = getCSSOutputs(metafile, file, browser);
               const isOverride = patterns.overrides.some(pattern => file.includes(pattern));
-              const { meta = {} } = isOverride ? await getExports(file) : {};
+              const { meta = {}, isSkeleton = false } = isOverride ? await getExports(file) : {};
+
+              if (isSkeleton) return;
 
               if (isOverride) {
                 const icon = appFiles.find(file => file.includes(`${fileWithoutExt}-icon`));

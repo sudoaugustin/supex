@@ -90,15 +90,11 @@ async function generateManifest({ server, outdir, browser, isBuild, metafile }: 
   }
 
   if (files.action) {
-    const { meta } = await getExports(path.join(paths.root, files.action));
+    const { meta, isSkeleton } = await getExports(path.join(paths.root, files.action));
     manifest[version === 2 ? 'browser_action' : 'action'] = {
       default_icon: files.icons.action ? await buildIcon({ outdir, input: files.icons.action, isBuild }) : undefined,
       default_title: meta.title,
-      default_popup: 'action.html',
-    };
-  } else if (files.icons.action) {
-    manifest[version === 2 ? 'browser_action' : 'action'] = {
-      default_icon: files.icons.action ? await buildIcon({ outdir, input: files.icons.action, isBuild }) : undefined,
+      default_popup: isSkeleton ? undefined : 'action.html',
     };
   }
 

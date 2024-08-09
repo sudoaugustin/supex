@@ -58,10 +58,10 @@ export const getConfig = <TConfig>(name: string) => {
 };
 
 export const getExports = (input: string) => {
-  type Exports = { meta: Meta; pattern: Pattern };
+  type Exports = { meta: Meta; pattern: Pattern; isSkeleton: boolean };
 
   return esbuild.transform(jetpack.read(input) as string, { loader: 'tsx' }).then(({ code }) => {
-    const $exports: Exports = { meta: {}, pattern: { matches: [] } };
+    const $exports: Exports = { meta: {}, pattern: { matches: [] }, isSkeleton: false };
     babelTraverse.default(babelParser.parse(code, { sourceType: 'module' }), {
       ExportNamedDeclaration(path) {
         if (path.node.declaration?.type === 'VariableDeclaration') {
