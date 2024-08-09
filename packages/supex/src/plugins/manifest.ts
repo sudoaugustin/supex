@@ -204,7 +204,7 @@ async function generateManifest({ server, outdir, browser, isBuild, metafile }: 
     if (!security) security = {};
     if (!security['default-src']) security['default-src'] = "'self'";
     const policy = Object.entries(security).reduce(
-      (string, [name, value]) => `${string} ${name} ${value}${name === 'default-src' && !isBuild ? ` ${server}` : ''};`,
+      (string, [name, value]) => `${string} ${name} ${value} ${!isBuild ? `${server}` : ''};`,
       '',
     );
 
