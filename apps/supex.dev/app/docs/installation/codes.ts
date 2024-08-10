@@ -14,9 +14,6 @@ export default {
     "build": "supex build",
     "build:chrome": "supex build --browser=chrome",
     "build:firefox": "supex build --browser=chrome",
-    "build:edge": "supex build --browser=edge",
-    "build:opera": "supex build --browser=opera",
-    "build:safari": "supex build --browser=safari",
   }
 }`,
   typescript: {

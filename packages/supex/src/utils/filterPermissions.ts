@@ -130,8 +130,8 @@ const nonOptionalPermissions = {
     'menus.overrideContext',
     'theme',
   ],
-  safari: [],
-  edge: [],
+  // safari: [],
+  // edge: [],
 };
 
 export const filterRequiredPermissions = ($permissions: Permissions, browser: Browser) => {

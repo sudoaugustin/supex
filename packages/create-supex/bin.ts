@@ -116,9 +116,9 @@ async function init() {
       build: 'supex build',
       'build:chrome': 'supex build --browser=chrome',
       'build:firefox': 'supex build --browser=chrome',
-      'build:edge': 'supex build --browser=edge',
-      'build:opera': 'supex build --browser=opera',
-      'build:safari': 'supex build --browser=safari',
+      // 'build:edge': 'supex build --browser=edge',
+      // 'build:opera': 'supex build --browser=opera',
+      // 'build:safari': 'supex build --browser=safari',
     },
     dependencies: await getDepsGraph(['supex', 'webextension-polyfill', isReact && 'react', isReact && 'react-dom', isSolid && 'solid-js']),
     devDependencies: await getDepsGraph([
