@@ -1,9 +1,11 @@
 import path from 'path';
+import type { Compiler } from '@rspack/core';
 import type { Plugin } from 'esbuild';
 import jetpack from 'fs-jetpack';
 import { paths, patterns } from 'src/consts';
 import { generateMeta, getCSSOutputs, getExports, isScriptFile, replaceString } from 'src/utils';
 import { ESPluginOptions } from 'types';
+import ParentPlugin from './parent';
 
 const defaultHTML = `
   <!DOCTYPE html>
@@ -18,14 +20,64 @@ const defaultHTML = `
   <body></body>
   </html>`;
 
-export default function html({ server, outdir, browser, isBuild }: ESPluginOptions): Plugin {
-  return {
-    name: 'supex-html',
-    setup(build) {
-      if (!isBuild) {
-        jetpack.write(
-          path.join(outdir, 'reload.js'),
-          `new EventSource('${server}/esbuild').addEventListener('change', (e) => {
+// function html({ server, outdir, browser, isBuild }: ESPluginOptions): Plugin {
+//   return {
+//     name: 'supex-html',
+//     setup(build) {
+
+//       build.onEnd(({ errors, metafile }) => {
+//         if (errors.length === 0 && metafile) {
+//           const appFiles = jetpack.find(paths.app);
+
+//           appFiles
+//             .filter(isScriptFile)
+//             .filter(file => !file.includes('app/contents/') && !file.includes('app/worker'))
+//             .forEach(async file => {
+//               const fileWithoutExt = file.split('.')[0];
+//               const name = path.basename(fileWithoutExt);
+//               const html = jetpack.read(`${path.join(paths.root, fileWithoutExt)}.html`) || defaultHTML;
+//               const output = path.join(outdir, fileWithoutExt.replace('app/', ''));
+//               const cssFiles = getCSSOutputs(metafile, file, browser);
+//               const isOverride = patterns.overrides.some(pattern => file.includes(pattern));
+//               const { meta = {} } = isOverride ? await getExports(file) : {};
+
+//               if (isOverride) {
+//                 const icon = appFiles.find(file => file.includes(`${fileWithoutExt}-icon`));
+//                 if (icon) {
+//                   meta.icon = icon;
+//                   jetpack.copy(icon, path.join(outdir as string, 'icons', path.basename(icon)), { overwrite: true });
+//                 } else {
+//                   meta.icon = isBuild ? 'icon-32.png' : 'icon-256.png';
+//                 }
+//               }
+
+//               jetpack.write(
+//                 `${output}.html`,
+//                 replaceString(html, {
+//                   // Warning: Only use relative path from html for safty.
+//                   '</head>': `${
+//                     cssFiles.length
+//                       ? cssFiles.map(cssFile => `<link href="${isBuild ? '' : server}/${cssFile}" rel="stylesheet" />`).join('\n')
+//                       : ''
+//                   } ${generateMeta(meta)} </head>`,
+//                   '</body>': `<script src="./${name}.js"></script> ${isBuild ? '' : '<script src="./reload.js"></script>'} </body>`,
+//                 }),
+//               );
+//             });
+//         }
+//       });
+//     },
+//   };
+// }
+
+const PLUGIN_NAME = 'SUPEX_HTML';
+
+export default class SupexHTMLPlugin extends ParentPlugin {
+  apply(compiler: Compiler) {
+    if (!this.options.isBuild) {
+      jetpack.write(
+        path.join(this.options.outdir, 'reload.js'),
+        `new EventSource('${this.options.server}/esbuild').addEventListener('change', (e) => {
             const { added, removed, updated } = JSON.parse(e.data)
             if (!added.length && !removed.length && updated.every(path => path.includes('.css'))) {
               for (const link of document.getElementsByTagName("link")) {
@@ -42,50 +94,10 @@ export default function html({ server, outdir, browser, isBuild }: ESPluginOptio
 
             location.reload();
           })`,
-        );
-      }
-
-      build.onEnd(({ errors, metafile }) => {
-        if (errors.length === 0 && metafile) {
-          const appFiles = jetpack.find(paths.app);
-
-          appFiles
-            .filter(isScriptFile)
-            .filter(file => !file.includes('app/contents/') && !file.includes('app/worker'))
-            .forEach(async file => {
-              const fileWithoutExt = file.split('.')[0];
-              const name = path.basename(fileWithoutExt);
-              const html = jetpack.read(`${path.join(paths.root, fileWithoutExt)}.html`) || defaultHTML;
-              const output = path.join(outdir, fileWithoutExt.replace('app/', ''));
-              const cssFiles = getCSSOutputs(metafile, file, browser);
-              const isOverride = patterns.overrides.some(pattern => file.includes(pattern));
-              const { meta = {} } = isOverride ? await getExports(file) : {};
-
-              if (isOverride) {
-                const icon = appFiles.find(file => file.includes(`${fileWithoutExt}-icon`));
-                if (icon) {
-                  meta.icon = icon;
-                  jetpack.copy(icon, path.join(outdir as string, 'icons', path.basename(icon)), { overwrite: true });
-                } else {
-                  meta.icon = isBuild ? 'icon-32.png' : 'icon-256.png';
-                }
-              }
-
-              jetpack.write(
-                `${output}.html`,
-                replaceString(html, {
-                  // Warning: Only use relative path from html for safty.
-                  '</head>': `${
-                    cssFiles.length
-                      ? cssFiles.map(cssFile => `<link href="${isBuild ? '' : server}/${cssFile}" rel="stylesheet" />`).join('\n')
-                      : ''
-                  } ${generateMeta(meta)} </head>`,
-                  '</body>': `<script src="./${name}.js"></script> ${isBuild ? '' : '<script src="./reload.js"></script>'} </body>`,
-                }),
-              );
-            });
-        }
-      });
-    },
-  };
+      );
+    }
+    // compiler.hooks.done.tap(PLUGIN_NAME, a => {
+    //   console.log(a.toJson().errors);
+    // });
+  }
 }

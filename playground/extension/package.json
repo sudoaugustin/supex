@@ -2,7 +2,7 @@
   "name": "extension",
   "version": "0.0.1",
   "scripts": {
-    "watch": "supex",
+    "watch": "supex --browser=chrome",
     "build": "supex build --browser=chrome"
   },
   "dependencies": {
